@@ -1,0 +1,12 @@
+[Unit]
+Description=Virtual display for the persistent Dropi browser
+After=graphical-session-pre.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/Xvfb :99 -screen 0 1280x1024x24 -nolisten tcp -noreset
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

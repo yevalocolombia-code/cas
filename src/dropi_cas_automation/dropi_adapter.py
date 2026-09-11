@@ -50,12 +50,15 @@ wait_for_load(20)
 time.sleep(2)
 info = page_info()
 text = js("document.body.innerText || ''") or ''
-logged_in = ('Correo' not in text[:1200]) and ('Mis Pedidos' in text or 'Dashboard' in text or 'Reportes' in text)
+url = str(info.get('url') or '')
+has_orders_token = bool(js("!!localStorage.getItem('DROPI_token')"))
+logged_in = has_orders_token and '/auth/login' not in url
+orders_visible = '/dashboard/orders' in url or 'Mis Pedidos' in text or 'Órdenes' in text
 print('__JSON__' + json.dumps({{
     'ok': True,
-    'url': info.get('url', ''),
+    'url': url,
     'logged_in': logged_in,
-    'orders_visible': 'Mis Pedidos' in text or 'Órdenes' in text,
+    'orders_visible': orders_visible,
 }}, ensure_ascii=False))
 '''
         payload = self._runner.execute_json(code, timeout_seconds=90)

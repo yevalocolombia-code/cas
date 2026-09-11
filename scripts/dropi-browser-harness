@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export BH_HOME="${BH_HOME:-/opt/dropi-cas/runtime/browser-harness}"
+export BU_CDP_URL="${BU_CDP_URL:-http://127.0.0.1:9229}"
+export BH_TELEMETRY="${BH_TELEMETRY:-0}"
+export BH_RECORD="${BH_RECORD:-0}"
+export BH_DOMAIN_SKILLS="${BH_DOMAIN_SKILLS:-0}"
+export BH_TAB_MARKER="${BH_TAB_MARKER:-0}"
+export BU_AUTOSPAWN="${BU_AUTOSPAWN:-0}"
+export BH_OPEN_LIVE_URL="${BH_OPEN_LIVE_URL:-0}"
+
+exec "${DROPI_BROWSER_HARNESS_BIN:-/opt/browser-harness/.venv/bin/browser-harness}" "$@"

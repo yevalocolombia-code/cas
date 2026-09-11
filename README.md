@@ -146,6 +146,8 @@ Both sources feed the same local SQLite and the same subsequent history/CAS work
 # Read-only Dropi operations
 .venv/bin/dropi-cas sync --config ./config.toml --allow-external-read
 .venv/bin/dropi-cas refresh-history --config ./config.toml --guide GUIDE --allow-external-read
+.venv/bin/dropi-cas preflight --config ./config.toml --guide GUIDE \
+  --allow-external-read --case-service-type-id "YOUR_SERVICE_TYPE_ID"
 
 # Local-only operations
 .venv/bin/dropi-cas candidates --config ./config.toml
@@ -165,6 +167,31 @@ Both sources feed the same local SQLite and the same subsequent history/CAS work
 ```
 
 `run --execute` affects real operations: it refreshes the guide, validates it, captures evidence, creates a case only when Dropi confirms it is not already open, and records confirmed cases locally.
+
+`preflight` is the approval gate for one controlled guide. It refreshes the visible
+history, asks Dropi whether an active CAS already exists, and captures local
+evidence when the guide remains eligible. It never creates a CAS or sends a
+message.
+
+## Persistent browser and read-only watchdog
+
+Production installations can use the checked-in user-service templates in
+`deploy/systemd/` to keep an Xvfb display and the authenticated Chrome profile
+available after reboot. Copy the units to `~/.config/systemd/user/`, run
+`systemctl --user daemon-reload`, and enable both services. The Chrome debugging
+endpoint is bound to loopback only.
+
+`scripts/dropi-browser-harness` wraps the audited browser-harness installation
+with a dedicated workspace, loopback CDP endpoint, disabled telemetry, disabled
+recording, and browser autospawn disabled. Install the wrapper on `PATH` or pass
+it explicitly through `--browser-command`.
+
+`scripts/dropi-cas-watchdog.py` runs only the diagnostic, MCP sync, candidate
+count, follow-up dry-run, and local report. It uses an exclusive lock, emits no
+order/guide identifiers, suppresses unchanged status, and never passes
+`--execute` or `--allow-external-writes`. Schedule this script with the local
+service manager of choice; case creation and follow-up sending must remain a
+separate approval-gated operation.
 
 ## Per-installation customization
 

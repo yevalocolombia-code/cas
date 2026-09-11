@@ -27,6 +27,18 @@ class EligibilityRuleTests(unittest.TestCase):
 
         self.assertEqual(decision.status, "excluded_status")
 
+    def test_normalizes_provider_status_separators_before_exclusion(self):
+        for status in ("GUIA_GENERADA", "PENDIENTE-CONFIRMACION", "GUIA   GENERADA"):
+            with self.subTest(status=status):
+                decision = evaluate_order(make_order(status=status, hours=72), EligibilityPolicy())
+                self.assertEqual(decision.status, "excluded_status")
+
+    def test_excludes_rejected_and_cancelled_guide_statuses(self):
+        for status in ("RECHAZADO", "GUIA_ANULADA"):
+            with self.subTest(status=status):
+                decision = evaluate_order(make_order(status=status, hours=72), EligibilityPolicy())
+                self.assertEqual(decision.status, "excluded_status")
+
     def test_requires_a_guide_and_a_real_last_movement(self):
         missing_guide = make_order(guide="")
         missing_movement = OrderSnapshot(

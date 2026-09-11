@@ -18,8 +18,10 @@ DEFAULT_EXCLUDED_STATUSES = frozenset(
         "ENTREGADO A TRANSPORTADORA",
         "PREPARADO PARA TRANSPORTADORA",
         "GUIA GENERADA",
+        "GUIA ANULADA",
         "PENDIENTE",
         "PENDIENTE CONFIRMACION",
+        "RECHAZADO",
         "RECLAME EN OFICINA",
     }
 )
@@ -32,7 +34,8 @@ class EligibilityPolicy:
 
 
 def normalize_status(value: str) -> str:
-    return " ".join((value or "").strip().upper().split())
+    normalized = (value or "").replace("_", " ").replace("-", " ")
+    return " ".join(normalized.strip().upper().split())
 
 
 def evaluate_order(order: OrderSnapshot, policy: EligibilityPolicy, now: datetime | None = None) -> EligibilityDecision:

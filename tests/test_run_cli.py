@@ -29,3 +29,25 @@ class RunCliTests(unittest.TestCase):
             payload = json.loads(stream.getvalue())
             self.assertEqual(payload["mode"], "dry_run")
             self.assertEqual(payload["candidate_count"], 1)
+
+    def test_execute_requires_service_type_for_duplicate_detection(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            config = root / "config.toml"
+            config.write_text('[workspace]\nroot = "runtime"\n', encoding="utf-8")
+            stream = io.StringIO()
+            with redirect_stdout(stream):
+                result = main(
+                    [
+                        "run",
+                        "--config",
+                        str(config),
+                        "--execute",
+                        "--allow-external-read",
+                        "--allow-external-writes",
+                    ]
+                )
+            self.assertEqual(result, 2)
+            payload = json.loads(stream.getvalue())
+            self.assertFalse(payload["ok"])
+            self.assertIn("case-service-type-id", payload["error"])

@@ -170,6 +170,63 @@ def command_refresh_history(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_preflight(args: argparse.Namespace) -> int:
+    """Refresh and validate one guide without creating or messaging a CAS."""
+    config = _setup(args.config)
+    if not args.allow_external_read:
+        raise PermissionError("preflight requires --allow-external-read because it inspects Dropi and captures local evidence.")
+
+    runner = BrowserHarnessRunner(command=args.browser_command)
+    refresh_guide_history(
+        config.database_path,
+        DropiHistoryReader(runner),
+        args.guide,
+        allow_external_read=True,
+    )
+    candidates = load_candidates(
+        config.database_path,
+        minimum_hours_without_movement=config.minimum_hours_without_movement,
+    )
+    item = next((candidate for candidate in candidates if candidate.guide == args.guide), None)
+    if item is None:
+        print(
+            json.dumps(
+                {
+                    "ok": True,
+                    "mode": "read_only_preflight",
+                    "guide": args.guide,
+                    "status": "not_eligible_after_history_refresh",
+                }
+            )
+        )
+        return 0
+
+    validation = DropiCaseValidator(
+        runner,
+        case_service_type_id=args.case_service_type_id,
+    ).validate(item.order_id, item.carrier, allow_external_read=True)
+    payload = {
+        "ok": True,
+        "mode": "read_only_preflight",
+        "order_id": item.order_id,
+        "guide": item.guide,
+        "status": validation.status,
+    }
+    if validation.chat_id:
+        payload["chat_id"] = validation.chat_id
+    if validation.status != "eligible":
+        print(json.dumps(payload))
+        return 0
+
+    evidence_path = EvidenceCapture(runner, config.evidence_dir).capture(
+        item.guide,
+        allow_external_read=True,
+    )
+    payload["evidence_path"] = str(evidence_path)
+    print(json.dumps(payload))
+    return 0
+
+
 def command_run(args: argparse.Namespace) -> int:
     config = _setup(args.config)
     candidates = load_candidates(config.database_path, minimum_hours_without_movement=config.minimum_hours_without_movement)
@@ -178,8 +235,11 @@ def command_run(args: argparse.Namespace) -> int:
     if args.dry_run:
         print(json.dumps({"ok": True, "mode": "dry_run", "candidate_count": len(candidates), "candidates": [{"order_id": item.order_id, "guide": item.guide} for item in candidates]}))
         return 0
-    if not (args.allow_external_read and args.allow_external_writes):
-        raise PermissionError("run --execute requires both --allow-external-read and --allow-external-writes.")
+    if not (args.allow_external_read and args.allow_external_writes and args.case_service_type_id):
+        raise PermissionError(
+            "run --execute requires --allow-external-read, --allow-external-writes, "
+            "and --case-service-type-id so duplicate detection cannot be skipped."
+        )
     runner = BrowserHarnessRunner(command=args.browser_command)
     validator = DropiCaseValidator(runner, case_service_type_id=args.case_service_type_id)
     evidence = EvidenceCapture(runner, config.evidence_dir)
@@ -271,6 +331,16 @@ def build_parser() -> argparse.ArgumentParser:
     refresh_history.add_argument("--allow-external-read", action="store_true")
     refresh_history.add_argument("--browser-command", default="browser-harness")
     refresh_history.set_defaults(handler=command_refresh_history)
+    preflight = commands.add_parser(
+        "preflight",
+        help="Refresh, validate, detect an existing CAS, and capture evidence for one guide without external writes.",
+    )
+    preflight.add_argument("--config", required=True)
+    preflight.add_argument("--guide", required=True)
+    preflight.add_argument("--allow-external-read", action="store_true")
+    preflight.add_argument("--case-service-type-id", required=True)
+    preflight.add_argument("--browser-command", default="browser-harness")
+    preflight.set_defaults(handler=command_preflight)
     run = commands.add_parser("run", help="Run CAS candidates in dry-run mode or with explicit external read/write permissions.")
     run.add_argument("--config", required=True)
     mode = run.add_mutually_exclusive_group(required=True)
