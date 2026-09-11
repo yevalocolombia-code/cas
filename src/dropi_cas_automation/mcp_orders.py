@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import json
+import os
+import re
 import sqlite3
 import urllib.request
 from datetime import date, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
+
+_ENV_TEMPLATE = re.compile(r"\$\{([A-Za-z_][A-Za-z0-9_]*)\}")
 
 
 def import_mcp_orders(database_path: Path, orders: list[dict[str, Any]], *, source_ref: str) -> dict[str, int]:
@@ -45,7 +49,35 @@ def import_mcp_orders(database_path: Path, orders: list[dict[str, Any]], *, sour
     return {"rows": len(rows), "created": created, "updated": updated}
 
 
-def _parse_connection(text: str) -> tuple[str, dict[str, str]]:
+def _load_dotenv(path: Path) -> dict[str, str]:
+    if not path.is_file():
+        return {}
+    values: dict[str, str] = {}
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if not key:
+            continue
+        values[key] = value.strip().strip("'\"")
+    return values
+
+
+def _resolve_header_templates(value: str, *, environ: Mapping[str, str], dotenv: Mapping[str, str]) -> str:
+    def replace(match: re.Match[str]) -> str:
+        name = match.group(1)
+        if name in environ and environ[name] != "":
+            return str(environ[name])
+        if name in dotenv and dotenv[name] != "":
+            return str(dotenv[name])
+        raise ValueError(f"MCP header template references unset environment variable: {name}")
+
+    return _ENV_TEMPLATE.sub(replace, value)
+
+
+def _parse_connection(text: str, *, config_path: Path | None = None) -> tuple[str, dict[str, str]]:
     lines = text.splitlines()
     start = next((index for index, line in enumerate(lines) if line.strip() == "ecommerce360:"), None)
     if start is None:
@@ -68,7 +100,14 @@ def _parse_connection(text: str) -> tuple[str, dict[str, str]]:
             headers[key.strip()] = value.strip().strip("'\"")
     if not url or not headers:
         raise ValueError("MCP ecommerce360 requires URL and authenticated headers in its private config.")
-    return url, headers
+    dotenv: dict[str, str] = {}
+    if config_path is not None:
+        dotenv = _load_dotenv(config_path.expanduser().resolve().parent / ".env")
+    resolved = {
+        key: _resolve_header_templates(value, environ=os.environ, dotenv=dotenv)
+        for key, value in headers.items()
+    }
+    return url, resolved
 
 
 def _call(url: str, headers: dict[str, str], method: str, params: dict[str, Any], request_id: int) -> dict[str, Any]:
@@ -86,7 +125,8 @@ def _call(url: str, headers: dict[str, str], method: str, params: dict[str, Any]
 
 
 def fetch_mcp_orders(config_path: Path, *, window_days: int) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    url, headers = _parse_connection(config_path.expanduser().read_text(encoding="utf-8"))
+    config_path = config_path.expanduser()
+    url, headers = _parse_connection(config_path.read_text(encoding="utf-8"), config_path=config_path)
     _call(url, headers, "initialize", {"protocolVersion": "2025-03-26", "capabilities": {}, "clientInfo": {"name": "dropi-cas-automation", "version": "0.1.0"}}, 1)
     until = date.today()
     from_date = until - timedelta(days=window_days)
