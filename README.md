@@ -175,11 +175,13 @@ message.
 
 ## Persistent browser and read-only watchdog
 
-Production installations can use the checked-in user-service templates in
-`deploy/systemd/` to keep an Xvfb display and the authenticated Chrome profile
-available after reboot. Copy the units to `~/.config/systemd/user/`, run
-`systemctl --user daemon-reload`, and enable both services. The Chrome debugging
-endpoint is bound to loopback only.
+Production installations use the checked-in system-service templates in
+`deploy/systemd/` with a dedicated unprivileged `dropicas` account. Create that
+system account with home `/var/lib/dropi-cas`, keep its browser profile at
+`/var/lib/dropi-cas/browser-profile`, copy the units to `/etc/systemd/system/`,
+run `systemctl daemon-reload`, and enable both services. Chrome runs with its
+sandbox enabled; the debugging endpoint is bound to loopback only. Do not run
+the browser as root or add `--no-sandbox`.
 
 `scripts/dropi-browser-harness` wraps the audited browser-harness installation
 with a dedicated workspace, loopback CDP endpoint, disabled telemetry, disabled

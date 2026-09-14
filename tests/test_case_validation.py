@@ -19,7 +19,7 @@ class CaseValidationTests(unittest.TestCase):
             DropiCaseValidator(FakeRunner({})).validate("123", "carrier-a", allow_external_read=False)
 
     def test_validation_returns_existing_case_without_write(self):
-        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "identity_ok": True}
+        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "service_type_ok": True, "identity_ok": True}
         runner = FakeRunner({"ok": True, "status": "existing_case", "chat_id": "chat-1", "checks": checks})
         result = DropiCaseValidator(runner).validate("123", "carrier-a", allow_external_read=True)
         self.assertEqual(result.status, "existing_case")
@@ -32,7 +32,7 @@ class CaseValidationTests(unittest.TestCase):
         )
         self.assertEqual(missing_proof.status, "validation_error")
 
-        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "identity_ok": True}
+        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "service_type_ok": True, "identity_ok": True}
         proven = DropiCaseValidator(FakeRunner({"ok": True, "status": "eligible", "checks": checks})).validate(
             "123", "carrier-a", allow_external_read=True
         )
@@ -48,6 +48,9 @@ class CaseValidationTests(unittest.TestCase):
         self.assertIn("Number.isSafeInteger", runner.code)
         self.assertIn("ambiguous_case_search_response", runner.code)
         self.assertIn("checks.identity_ok", runner.code)
+        self.assertIn("version:'2.0.4'", runner.code)
+        self.assertIn("cas-types-tickets?casServiceType=", runner.code)
+        self.assertIn("service_type_ok", runner.code)
         self.assertIn("catch (error)", runner.code)
 
     def test_invalid_or_ambiguous_identity_never_becomes_eligible(self):

@@ -6,8 +6,11 @@ Wants=network-online.target
 
 [Service]
 Type=simple
+User=dropicas
+Group=dropicas
 Environment=DISPLAY=:99
-ExecStart=/usr/bin/google-chrome --no-sandbox --disable-gpu --disable-dev-shm-usage --no-first-run --no-default-browser-check --remote-debugging-address=127.0.0.1 --remote-debugging-port=9229 --user-data-dir=%h/.hermes/browser-profiles/dropi-yevalo https://app.dropi.co/
+Environment=HOME=/var/lib/dropi-cas
+ExecStart=/usr/bin/google-chrome --disable-gpu --disable-dev-shm-usage --no-first-run --no-default-browser-check --remote-debugging-address=127.0.0.1 --remote-debugging-port=9229 --user-data-dir=/var/lib/dropi-cas/browser-profile https://app.dropi.co/
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=20
@@ -29,4 +32,4 @@ SystemCallArchitectures=native
 UMask=0077
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target

@@ -1,9 +1,11 @@
 [Unit]
 Description=Virtual display for the persistent Dropi browser
-After=graphical-session-pre.target
+After=network.target
 
 [Service]
 Type=simple
+User=dropicas
+Group=dropicas
 ExecStart=/usr/bin/Xvfb :99 -screen 0 1280x1024x24 -nolisten tcp -noreset
 Restart=always
 RestartSec=3
@@ -24,4 +26,4 @@ SystemCallArchitectures=native
 UMask=0077
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target

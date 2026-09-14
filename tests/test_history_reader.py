@@ -22,3 +22,5 @@ class HistoryReaderTests(unittest.TestCase):
         text = DropiHistoryReader(runner).read("034000000001", allow_external_read=True)
         self.assertIn("ORDEN PARA:", text)
         self.assertIn("034000000001", runner.code)
+        self.assertIn("goto_url(orders_url)", runner.code)
+        self.assertIn("list_tabs(include_chrome=False)", runner.code)

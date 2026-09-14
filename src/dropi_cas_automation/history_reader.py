@@ -28,11 +28,20 @@ class DropiHistoryReader:
         return r'''
 import json, time
 GUIDE = __GUIDE__
-url = page_info().get('url') or ''
-if '/dashboard/orders' not in url:
-    new_tab('https://app.dropi.co/dashboard/orders')
-    wait_for_load(25)
-    time.sleep(3)
+orders_url = 'https://app.dropi.co/dashboard/orders'
+tabs = list_tabs(include_chrome=False)
+target = next((tab for tab in tabs if '/dashboard/orders' in (tab.get('url') or '')), None)
+if not target:
+    target = next((tab for tab in tabs if 'app.dropi.co' in (tab.get('url') or '')), None)
+if target:
+    switch_tab(target)
+else:
+    new_tab(orders_url)
+goto_url(orders_url)
+wait_for_load(25)
+time.sleep(3)
+if '/dashboard/orders' not in (page_info().get('url') or ''):
+    print('__JSON__' + json.dumps({'ok':False, 'error':'orders_view_not_loaded'})); raise SystemExit
 if not js("!!document.querySelector('textarea')"):
     js("document.querySelector('button[title=\"Mostrar Filtros\"]')?.click()")
     time.sleep(1)
