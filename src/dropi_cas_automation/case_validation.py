@@ -31,7 +31,10 @@ class DropiCaseValidator:
         status = str(data.get("status") or "validation_error")
         raw_checks = data.get("checks")
         checks: dict[str, Any] = raw_checks if isinstance(raw_checks, dict) else {}
-        complete_checks = all(checks.get(name) is True for name in ("validation_ok", "search_ok", "search_schema_ok"))
+        complete_checks = all(
+            checks.get(name) is True
+            for name in ("validation_ok", "search_ok", "search_schema_ok", "identity_ok")
+        )
         if status == "eligible" and not complete_checks:
             status = "validation_error"
         if status == "existing_case" and (not complete_checks or not data.get("chat_id")):
@@ -46,6 +49,8 @@ class DropiCaseValidator:
             "validation_schema_error",
             "case_search_http_error",
             "case_search_schema_error",
+            "ambiguous_case_search_response",
+            "invalid_order_id",
             "network_error",
             "validation_error",
         }
@@ -63,8 +68,11 @@ script = f"""(async () => {{
   const ORDER_ID = {json.dumps(ORDER_ID)};
   const CARRIER = {json.dumps(CARRIER)};
   const SERVICE_TYPE = {json.dumps(SERVICE_TYPE)};
-  const checks = {{validation_ok:false, search_ok:false, search_schema_ok:false}};
+  const checks = {{validation_ok:false, search_ok:false, search_schema_ok:false, identity_ok:false}};
   try {{
+    if (!/^\d+$/.test(ORDER_ID)) return {{status:'invalid_order_id', checks}};
+    const numericOrderId = Number(ORDER_ID);
+    if (!Number.isSafeInteger(numericOrderId) || numericOrderId <= 0) return {{status:'invalid_order_id', checks}};
     const ordersToken = JSON.parse(localStorage.getItem('DROPI_token') || 'null');
     const casToken = JSON.parse(localStorage.getItem('casToken') || 'null');
     if (!ordersToken || !casToken) return {{status:'session_missing', checks}};
@@ -79,7 +87,7 @@ script = f"""(async () => {{
     checks.validation_ok = true;
     if (!validationPayload.objects.ORDER_WITHOUT_MOVEMENT) return {{status:'not_eligible', checks}};
     const headers = {{Authorization:'Bearer ' + casToken, 'Content-Type':'application/json'}};
-    const query = {{enterpriseNames:[CARRIER], serviceTypeId:SERVICE_TYPE, referenceObjects:[{{id:Number(ORDER_ID), type:'ORDER'}}], status_chat:['active','queues','postponed','to_reopen','close','closed','finalized']}};
+    const query = {{enterpriseNames:[CARRIER], serviceTypeId:SERVICE_TYPE, referenceObjects:[{{id:numericOrderId, type:'ORDER'}}], status_chat:['active','queues','postponed','to_reopen','close','closed','finalized']}};
     const searchResponse = await fetch('https://api-v2.dropi.co/cas/api/v1/chats/search', {{method:'POST',headers,body:JSON.stringify(query)}});
     if (!searchResponse.ok) return {{status:'case_search_http_error', checks}};
     checks.search_ok = true;
@@ -88,8 +96,42 @@ script = f"""(async () => {{
       return {{status:'case_search_schema_error', checks}};
     }}
     checks.search_schema_ok = true;
-    const active = searchPayload.data.find(item => !['close','closed','finalized'].includes(String(item?.casChat?.status || '').toLowerCase()));
-    return active ? {{status:'existing_case', chat_id:String(active?.casChat?._id || ''), checks}} : {{status:'eligible', checks}};
+    if (searchPayload.data.length === 0) {{
+      checks.identity_ok = true;
+      return {{status:'eligible', checks}};
+    }}
+    const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase();
+    const expectedOrderId = String(numericOrderId);
+    const expectedServiceType = String(SERVICE_TYPE);
+    const expectedCarrier = normalize(CARRIER);
+    const inspect = item => {{
+      const chat = item?.casChat && typeof item.casChat === 'object' ? item.casChat : item;
+      const references = Array.isArray(chat?.referenceObjects) ? chat.referenceObjects :
+        (Array.isArray(item?.referenceObjects) ? item.referenceObjects : []);
+      const orderMatches = references.some(reference =>
+        String(reference?.id ?? '') === expectedOrderId && normalize(reference?.type) === 'ORDER'
+      );
+      const serviceType = chat?.serviceTypeId ?? chat?.serviceType?._id ?? chat?.serviceType?.id ??
+        item?.serviceTypeId ?? item?.serviceType?._id ?? item?.serviceType?.id ?? '';
+      const carrierValues = [
+        chat?.enterpriseName, chat?.enterprise?.name, item?.enterpriseName, item?.enterprise?.name,
+        ...(Array.isArray(chat?.enterpriseNames) ? chat.enterpriseNames : []),
+        ...(Array.isArray(item?.enterpriseNames) ? item.enterpriseNames : []),
+      ];
+      const carrierMatches = carrierValues.some(value => normalize(value) === expectedCarrier);
+      const identityMatches = orderMatches && String(serviceType) === expectedServiceType && carrierMatches;
+      const status = normalize(chat?.status).toLowerCase();
+      const chatId = String(chat?._id ?? chat?.id ?? item?.chatId ?? '');
+      return {{identityMatches, status, chatId}};
+    }};
+    const inspected = searchPayload.data.map(inspect);
+    if (!inspected.every(result => result.identityMatches)) {{
+      return {{status:'ambiguous_case_search_response', checks}};
+    }}
+    checks.identity_ok = true;
+    const active = inspected.find(result => !['close','closed','finalized'].includes(result.status));
+    if (active && !active.chatId) return {{status:'ambiguous_case_search_response', checks}};
+    return active ? {{status:'existing_case', chat_id:active.chatId, checks}} : {{status:'eligible', checks}};
   }} catch (error) {{
     return {{status:'network_error', checks}};
   }}

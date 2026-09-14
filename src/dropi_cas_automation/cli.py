@@ -261,6 +261,10 @@ def command_run(args: argparse.Namespace) -> int:
             "run --execute requires --allow-external-read, --allow-external-writes, "
             "and --case-service-type-id so duplicate detection cannot be skipped."
         )
+    if len(candidates) != 1:
+        raise PermissionError(
+            f"run --execute requires exactly one candidate for --guide; found {len(candidates)}."
+        )
     runner = BrowserHarnessRunner(command=args.browser_command)
     validator = DropiCaseValidator(runner, case_service_type_id=args.case_service_type_id)
     evidence = EvidenceCapture(runner, config.evidence_dir)
@@ -268,12 +272,27 @@ def command_run(args: argparse.Namespace) -> int:
     results = []
     for item in candidates:
         refresh_guide_history(config.database_path, DropiHistoryReader(runner), item.guide, allow_external_read=True)
+        refreshed_candidates = load_candidates(
+            config.database_path,
+            minimum_hours_without_movement=config.minimum_hours_without_movement,
+            movement_timezone=config.movement_timezone,
+        )
+        refreshed_matches = [
+            candidate
+            for candidate in refreshed_candidates
+            if candidate.order_id == item.order_id and candidate.guide == item.guide
+        ]
+        if len(refreshed_matches) != 1:
+            results.append({"guide": item.guide, "status": "skipped_not_eligible_after_refresh"})
+            continue
+        item = refreshed_matches[0]
         validation = validator.validate(item.order_id, item.carrier, allow_external_read=True)
         if validation.status != "eligible":
             results.append({"guide": item.guide, "status": validation.status})
             continue
         path = evidence.capture(item.guide, allow_external_read=True)
-        message = "Buen día. La guía lleva más de 24 horas sin actualización. Solicito validar y gestionar avance prioritario. Gracias."
+        threshold = f"{config.minimum_hours_without_movement:g}"
+        message = f"Buen día. La guía lleva {threshold} horas o más sin actualización. Solicito validar y gestionar avance prioritario. Gracias."
         created = creator.create(item.order_id, item.guide, message, path, allow_external_writes=True)
         if created.status == "existing_case":
             results.append({"guide": item.guide, "status": "existing_case"})

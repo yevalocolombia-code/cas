@@ -19,7 +19,7 @@ class CaseValidationTests(unittest.TestCase):
             DropiCaseValidator(FakeRunner({})).validate("123", "carrier-a", allow_external_read=False)
 
     def test_validation_returns_existing_case_without_write(self):
-        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True}
+        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "identity_ok": True}
         runner = FakeRunner({"ok": True, "status": "existing_case", "chat_id": "chat-1", "checks": checks})
         result = DropiCaseValidator(runner).validate("123", "carrier-a", allow_external_read=True)
         self.assertEqual(result.status, "existing_case")
@@ -32,7 +32,7 @@ class CaseValidationTests(unittest.TestCase):
         )
         self.assertEqual(missing_proof.status, "validation_error")
 
-        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True}
+        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "identity_ok": True}
         proven = DropiCaseValidator(FakeRunner({"ok": True, "status": "eligible", "checks": checks})).validate(
             "123", "carrier-a", allow_external_read=True
         )
@@ -45,4 +45,19 @@ class CaseValidationTests(unittest.TestCase):
         self.assertIn("if (!validationResponse.ok)", runner.code)
         self.assertIn("if (!searchResponse.ok)", runner.code)
         self.assertIn("Array.isArray(searchPayload.data)", runner.code)
+        self.assertIn("Number.isSafeInteger", runner.code)
+        self.assertIn("ambiguous_case_search_response", runner.code)
+        self.assertIn("checks.identity_ok", runner.code)
         self.assertIn("catch (error)", runner.code)
+
+    def test_invalid_or_ambiguous_identity_never_becomes_eligible(self):
+        checks = {"validation_ok": True, "search_ok": True, "search_schema_ok": True, "identity_ok": False}
+        result = DropiCaseValidator(
+            FakeRunner({"status": "ambiguous_case_search_response", "checks": checks})
+        ).validate("123", "carrier-a", allow_external_read=True)
+        self.assertEqual(result.status, "ambiguous_case_search_response")
+
+        missing_identity = DropiCaseValidator(
+            FakeRunner({"status": "eligible", "checks": checks})
+        ).validate("123", "carrier-a", allow_external_read=True)
+        self.assertEqual(missing_identity.status, "validation_error")
