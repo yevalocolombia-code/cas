@@ -1,15 +1,25 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .models import OrderSnapshot
 from .rules import EligibilityPolicy, evaluate_order
 
 
-def load_candidates(database_path: Path, *, minimum_hours_without_movement: float) -> list[OrderSnapshot]:
-    policy = EligibilityPolicy(minimum_hours_without_movement=minimum_hours_without_movement)
+def load_candidates(
+    database_path: Path,
+    *,
+    minimum_hours_without_movement: float,
+    movement_timezone: str = "UTC",
+    now: datetime | None = None,
+) -> list[OrderSnapshot]:
+    policy = EligibilityPolicy(
+        minimum_hours_without_movement=minimum_hours_without_movement,
+        movement_timezone=movement_timezone,
+    )
+    current_time = now or datetime.now(timezone.utc)
     candidates: list[OrderSnapshot] = []
     with sqlite3.connect(database_path) as connection:
         for order_id, guide, status, carrier, last_movement_at in connection.execute(
@@ -20,6 +30,6 @@ def load_candidates(database_path: Path, *, minimum_hours_without_movement: floa
             except (TypeError, ValueError):
                 continue
             snapshot = OrderSnapshot(str(order_id), str(guide), str(carrier or ""), str(status or ""), movement)
-            if evaluate_order(snapshot, policy).status == "eligible":
+            if evaluate_order(snapshot, policy, now=current_time).status == "eligible":
                 candidates.append(snapshot)
     return sorted(candidates, key=lambda item: item.last_movement_at or datetime.max)

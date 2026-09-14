@@ -22,6 +22,39 @@ class EligibilityRuleTests(unittest.TestCase):
         self.assertEqual(decision.status, "eligible")
         self.assertGreaterEqual(decision.hours_without_movement, 25)
 
+    def test_exact_threshold_is_eligible_in_configured_provider_timezone(self):
+        order = OrderSnapshot(
+            order_id="order-48h",
+            guide="034000000048",
+            carrier="carrier-a",
+            current_status="EN TRANSPORTE",
+            last_movement_at=datetime(2026, 9, 12, 13, 0),
+        )
+        decision = evaluate_order(
+            order,
+            EligibilityPolicy(minimum_hours_without_movement=48, movement_timezone="America/Bogota"),
+            now=datetime(2026, 9, 14, 18, 0, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(decision.status, "eligible")
+        self.assertEqual(decision.hours_without_movement, 48.0)
+
+    def test_preserves_explicit_timestamp_offsets(self):
+        order = OrderSnapshot(
+            order_id="order-aware",
+            guide="034000000049",
+            carrier="carrier-a",
+            current_status="EN TRANSPORTE",
+            last_movement_at=datetime(2026, 9, 12, 18, 0, tzinfo=timezone.utc),
+        )
+        decision = evaluate_order(
+            order,
+            EligibilityPolicy(minimum_hours_without_movement=48, movement_timezone="America/Bogota"),
+            now=datetime(2026, 9, 14, 18, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(decision.status, "eligible")
+        self.assertEqual(decision.hours_without_movement, 48.0)
+
     def test_excludes_closed_status_even_when_old(self):
         decision = evaluate_order(make_order(status="ENTREGADO", hours=72), EligibilityPolicy())
 

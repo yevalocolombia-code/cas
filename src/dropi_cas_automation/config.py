@@ -3,12 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 @dataclass(frozen=True)
 class AppConfig:
     workspace_root: Path
     minimum_hours_without_movement: float = 24.0
+    movement_timezone: str = "UTC"
     orders_source: str = "excel"
     mcp_config_path: Path | None = None
     mcp_window_days: int = 25
@@ -60,6 +62,13 @@ def load_config(path: Path) -> AppConfig:
     threshold = data.get("rules", {}).get("minimum_hours_without_movement", 24)
     if not isinstance(threshold, (int, float)) or threshold <= 0:
         raise ValueError("[rules].minimum_hours_without_movement must be greater than zero.")
+    movement_timezone = data.get("rules", {}).get("movement_timezone", "UTC")
+    if not isinstance(movement_timezone, str) or not movement_timezone.strip():
+        raise ValueError("[rules].movement_timezone must be a non-empty IANA timezone name.")
+    try:
+        ZoneInfo(movement_timezone)
+    except ZoneInfoNotFoundError as error:
+        raise ValueError("[rules].movement_timezone must be a valid IANA timezone name.") from error
     source = data.get("orders_source", {}).get("provider", "excel")
     if source not in {"excel", "mcp"}:
         raise ValueError("[orders_source].provider must be 'excel' or 'mcp'.")
@@ -75,6 +84,7 @@ def load_config(path: Path) -> AppConfig:
     return AppConfig(
         workspace_root=workspace_root.resolve(),
         minimum_hours_without_movement=float(threshold),
+        movement_timezone=movement_timezone,
         orders_source=source,
         mcp_config_path=mcp_path.resolve() if mcp_path else None,
         mcp_window_days=window_days,

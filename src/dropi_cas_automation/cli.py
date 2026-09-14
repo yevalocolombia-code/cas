@@ -78,6 +78,7 @@ def command_doctor(args: argparse.Namespace) -> int:
         "workspace": str(config.workspace_root),
         "database": str(config.database_path),
         "minimum_hours_without_movement": config.minimum_hours_without_movement,
+        "movement_timezone": config.movement_timezone,
         "notes": ["Doctor is local-only; it does not open a browser, contact an API, or send messages."],
     }
     print(json.dumps(payload))
@@ -90,7 +91,10 @@ def command_evaluate(args: argparse.Namespace) -> int:
     raw_orders = json.loads(input_path.read_text(encoding="utf-8"))
     if not isinstance(raw_orders, list):
         raise ValueError("Input must be a JSON array of order objects.")
-    policy = EligibilityPolicy(minimum_hours_without_movement=config.minimum_hours_without_movement)
+    policy = EligibilityPolicy(
+        minimum_hours_without_movement=config.minimum_hours_without_movement,
+        movement_timezone=config.movement_timezone,
+    )
     results: list[dict[str, Any]] = []
     for raw in raw_orders:
         order = _order_from_json(raw)
@@ -128,7 +132,11 @@ def command_report(args: argparse.Namespace) -> int:
 
 def command_candidates(args: argparse.Namespace) -> int:
     config = _setup(args.config)
-    rows = load_candidates(config.database_path, minimum_hours_without_movement=config.minimum_hours_without_movement)
+    rows = load_candidates(
+        config.database_path,
+        minimum_hours_without_movement=config.minimum_hours_without_movement,
+        movement_timezone=config.movement_timezone,
+    )
     candidates = [
         {
             "order_id": row.order_id,
@@ -186,6 +194,7 @@ def command_preflight(args: argparse.Namespace) -> int:
     candidates = load_candidates(
         config.database_path,
         minimum_hours_without_movement=config.minimum_hours_without_movement,
+        movement_timezone=config.movement_timezone,
     )
     item = next((candidate for candidate in candidates if candidate.guide == args.guide), None)
     if item is None:
@@ -229,7 +238,11 @@ def command_preflight(args: argparse.Namespace) -> int:
 
 def command_run(args: argparse.Namespace) -> int:
     config = _setup(args.config)
-    candidates = load_candidates(config.database_path, minimum_hours_without_movement=config.minimum_hours_without_movement)
+    candidates = load_candidates(
+        config.database_path,
+        minimum_hours_without_movement=config.minimum_hours_without_movement,
+        movement_timezone=config.movement_timezone,
+    )
     if args.guide:
         candidates = [candidate for candidate in candidates if candidate.guide == args.guide]
     if args.limit is not None:
@@ -286,7 +299,11 @@ def command_followups(args: argparse.Namespace) -> int:
     message = followup_message()
     for item in due:
         refresh_guide_history(config.database_path, DropiHistoryReader(runner), item.guide, allow_external_read=True)
-        candidates = load_candidates(config.database_path, minimum_hours_without_movement=config.minimum_hours_without_movement)
+        candidates = load_candidates(
+            config.database_path,
+            minimum_hours_without_movement=config.minimum_hours_without_movement,
+            movement_timezone=config.movement_timezone,
+        )
         if item.order_id not in {candidate.order_id for candidate in candidates}:
             mark_followup_skipped(config.database_path, item.id, "order_no_longer_eligible_after_history_refresh")
             results.append({"guide": item.guide, "status": "skipped_not_eligible"})

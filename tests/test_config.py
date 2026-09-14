@@ -16,6 +16,7 @@ root = "runtime"
 
 [rules]
 minimum_hours_without_movement = 30
+movement_timezone = "America/Bogota"
 """,
                 encoding="utf-8",
             )
@@ -24,7 +25,22 @@ minimum_hours_without_movement = 30
 
             self.assertEqual(config.workspace_root, root / "runtime")
             self.assertEqual(config.minimum_hours_without_movement, 30)
+            self.assertEqual(config.movement_timezone, "America/Bogota")
             self.assertEqual(config.orders_source, "excel")
+
+    def test_rejects_invalid_movement_timezone(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_path = Path(temp_dir) / "config.toml"
+            config_path.write_text(
+                """[workspace]
+root = "runtime"
+[rules]
+movement_timezone = "Mars/Olympus"
+""",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "valid IANA timezone"):
+                load_config(config_path)
 
     def test_loads_mcp_source_configuration_without_credentials(self):
         with tempfile.TemporaryDirectory() as temp_dir:
