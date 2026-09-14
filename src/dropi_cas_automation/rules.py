@@ -31,8 +31,8 @@ DEFAULT_EXCLUDED_STATUSES = frozenset(
 
 @dataclass(frozen=True)
 class EligibilityPolicy:
-    minimum_hours_without_movement: float = 24.0
-    movement_timezone: str = "UTC"
+    minimum_hours_without_movement: float = 48.0
+    movement_timezone: str = "America/Bogota"
     excluded_statuses: FrozenSet[str] = field(default_factory=lambda: DEFAULT_EXCLUDED_STATUSES)
 
 
@@ -41,6 +41,13 @@ def normalize_status(value: str) -> str:
     normalized = "".join(character for character in normalized if not unicodedata.combining(character))
     normalized = normalized.replace("_", " ").replace("-", " ")
     return " ".join(normalized.strip().upper().split())
+
+
+def movement_instant(value: datetime, movement_timezone: str) -> datetime:
+    """Return a comparable UTC instant while preserving explicit provider offsets."""
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=ZoneInfo(movement_timezone))
+    return value.astimezone(timezone.utc)
 
 
 def evaluate_order(order: OrderSnapshot, policy: EligibilityPolicy, now: datetime | None = None) -> EligibilityDecision:
@@ -54,13 +61,11 @@ def evaluate_order(order: OrderSnapshot, policy: EligibilityPolicy, now: datetim
     if status in excluded:
         return EligibilityDecision("excluded_status", f"Status is excluded: {status}.", None)
 
-    source_timezone = ZoneInfo(policy.movement_timezone)
     current_time = now or datetime.now(timezone.utc)
     if current_time.tzinfo is None:
-        current_time = current_time.replace(tzinfo=source_timezone)
-    movement_at = order.last_movement_at
-    if movement_at.tzinfo is None:
-        movement_at = movement_at.replace(tzinfo=source_timezone)
+        current_time = current_time.replace(tzinfo=ZoneInfo(policy.movement_timezone))
+    current_time = current_time.astimezone(timezone.utc)
+    movement_at = movement_instant(order.last_movement_at, policy.movement_timezone)
     hours = max(0.0, (current_time - movement_at).total_seconds() / 3600)
     if hours < policy.minimum_hours_without_movement:
         return EligibilityDecision("under_threshold", "Movement is still within the configured threshold.", round(hours, 1))

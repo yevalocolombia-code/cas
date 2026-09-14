@@ -22,7 +22,7 @@ class RunCliTests(unittest.TestCase):
             database = root / "runtime" / "data" / "automation.sqlite3"
             database.parent.mkdir(parents=True)
             initialize_database(database)
-            old = (datetime.now() - timedelta(hours=30)).replace(microsecond=0).isoformat(sep=" ")
+            old = (datetime.now(timezone.utc) - timedelta(hours=60)).replace(microsecond=0).isoformat()
             with sqlite3.connect(database) as connection:
                 connection.execute("INSERT INTO orders(order_id, guide, status, carrier, last_movement_at, raw_json) VALUES(?, ?, ?, ?, ?, ?)", ("123", "034000000001", "EN TRANSPORTE", "carrier-a", old, "{}"))
             stream = io.StringIO()
@@ -117,5 +117,26 @@ class RunCliTests(unittest.TestCase):
                 result = main(["run", "--config", str(config), "--execute", "--guide", "G-1", "--allow-external-read", "--allow-external-writes", "--case-service-type-id", "service"])
             self.assertEqual(result, 0)
             self.assertEqual(json.loads(stream.getvalue())["results"], [{"guide": "G-1", "status": "skipped_not_eligible_after_refresh"}])
+            validator.return_value.validate.assert_not_called()
+            creator.return_value.create.assert_not_called()
+
+    def test_execute_blocks_duplicate_guide_appearing_after_refresh(self):
+        original = OrderSnapshot("101", "G-1", "ENVIA", "EN REPARTO", datetime.now(timezone.utc) - timedelta(days=3))
+        duplicate = OrderSnapshot("102", "G-1", "ENVIA", "EN REPARTO", datetime.now(timezone.utc) - timedelta(days=3))
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config = Path(temp_dir) / "config.toml"
+            config.write_text('[workspace]\nroot = "runtime"\n', encoding="utf-8")
+            stream = io.StringIO()
+            with (
+                patch("dropi_cas_automation.cli.load_candidates", side_effect=[[original], [original, duplicate]]),
+                patch("dropi_cas_automation.cli.refresh_guide_history"),
+                patch("dropi_cas_automation.cli.BrowserHarnessRunner"),
+                patch("dropi_cas_automation.cli.DropiCaseValidator") as validator,
+                patch("dropi_cas_automation.cli.DropiCaseCreator") as creator,
+                redirect_stdout(stream),
+            ):
+                result = main(["run", "--config", str(config), "--execute", "--guide", "G-1", "--allow-external-read", "--allow-external-writes", "--case-service-type-id", "service"])
+            self.assertEqual(result, 0)
+            self.assertEqual(json.loads(stream.getvalue())["results"], [{"guide": "G-1", "status": "blocked_ambiguous_after_refresh"}])
             validator.return_value.validate.assert_not_called()
             creator.return_value.create.assert_not_called()

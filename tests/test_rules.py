@@ -5,7 +5,7 @@ from dropi_cas_automation.models import OrderSnapshot
 from dropi_cas_automation.rules import EligibilityPolicy, evaluate_order
 
 
-def make_order(*, status="EN BODEGA DESTINO", hours=25, guide="034000000001"):
+def make_order(*, status="EN BODEGA DESTINO", hours=49, guide="034000000001"):
     return OrderSnapshot(
         order_id="order-1",
         guide=guide,
@@ -20,7 +20,7 @@ class EligibilityRuleTests(unittest.TestCase):
         decision = evaluate_order(make_order(), EligibilityPolicy())
 
         self.assertEqual(decision.status, "eligible")
-        self.assertGreaterEqual(decision.hours_without_movement, 25)
+        self.assertGreaterEqual(decision.hours_without_movement or 0, 49)
 
     def test_exact_threshold_is_eligible_in_configured_provider_timezone(self):
         order = OrderSnapshot(

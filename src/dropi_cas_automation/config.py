@@ -9,8 +9,8 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 @dataclass(frozen=True)
 class AppConfig:
     workspace_root: Path
-    minimum_hours_without_movement: float = 24.0
-    movement_timezone: str = "UTC"
+    minimum_hours_without_movement: float = 48.0
+    movement_timezone: str = "America/Bogota"
     orders_source: str = "excel"
     mcp_config_path: Path | None = None
     mcp_window_days: int = 25
@@ -59,10 +59,10 @@ def load_config(path: Path) -> AppConfig:
     workspace_root = Path(workspace).expanduser()
     if not workspace_root.is_absolute():
         workspace_root = path.parent / workspace_root
-    threshold = data.get("rules", {}).get("minimum_hours_without_movement", 24)
+    threshold = data.get("rules", {}).get("minimum_hours_without_movement", 48)
     if not isinstance(threshold, (int, float)) or threshold <= 0:
         raise ValueError("[rules].minimum_hours_without_movement must be greater than zero.")
-    movement_timezone = data.get("rules", {}).get("movement_timezone", "UTC")
+    movement_timezone = data.get("rules", {}).get("movement_timezone", "America/Bogota")
     if not isinstance(movement_timezone, str) or not movement_timezone.strip():
         raise ValueError("[rules].movement_timezone must be a non-empty IANA timezone name.")
     try:

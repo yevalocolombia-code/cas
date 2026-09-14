@@ -4,7 +4,7 @@ import sqlite3
 import tempfile
 import unittest
 from contextlib import redirect_stdout
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from dropi_cas_automation.cli import main
@@ -20,7 +20,7 @@ class CandidatesCliTests(unittest.TestCase):
             database.parent.mkdir(parents=True)
             from dropi_cas_automation.storage import initialize_database
             initialize_database(database)
-            old = (datetime.now() - timedelta(hours=30)).replace(microsecond=0).isoformat(sep=" ")
+            old = (datetime.now(timezone.utc) - timedelta(hours=30)).replace(microsecond=0).isoformat()
             with sqlite3.connect(database) as connection:
                 connection.execute("INSERT INTO orders(order_id, guide, status, carrier, last_movement_at, raw_json) VALUES(?, ?, ?, ?, ?, ?)", ("123", "034000000001", "EN TRANSPORTE", "carrier-a", old, "{}"))
             stream = io.StringIO()

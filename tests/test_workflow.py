@@ -11,7 +11,7 @@ class FakeGateway:
         self.followups = []
 
     def load_orders(self):
-        return [OrderSnapshot("order-1", "G-1", "carrier-a", "EN TRANSPORTE", datetime.now(timezone.utc) - timedelta(hours=30))]
+        return [OrderSnapshot("order-1", "G-1", "carrier-a", "EN TRANSPORTE", datetime.now(timezone.utc) - timedelta(hours=60))]
 
     def refresh_history(self, order):
         return order

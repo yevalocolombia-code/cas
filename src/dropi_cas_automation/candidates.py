@@ -5,14 +5,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .models import OrderSnapshot
-from .rules import EligibilityPolicy, evaluate_order
+from .rules import EligibilityPolicy, evaluate_order, movement_instant
 
 
 def load_candidates(
     database_path: Path,
     *,
     minimum_hours_without_movement: float,
-    movement_timezone: str = "UTC",
+    movement_timezone: str = "America/Bogota",
     now: datetime | None = None,
 ) -> list[OrderSnapshot]:
     policy = EligibilityPolicy(
@@ -32,4 +32,9 @@ def load_candidates(
             snapshot = OrderSnapshot(str(order_id), str(guide), str(carrier or ""), str(status or ""), movement)
             if evaluate_order(snapshot, policy, now=current_time).status == "eligible":
                 candidates.append(snapshot)
-    return sorted(candidates, key=lambda item: item.last_movement_at or datetime.max)
+    def sort_key(item: OrderSnapshot) -> datetime:
+        if item.last_movement_at is None:
+            return datetime.max.replace(tzinfo=timezone.utc)
+        return movement_instant(item.last_movement_at, movement_timezone)
+
+    return sorted(candidates, key=sort_key)

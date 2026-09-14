@@ -6,6 +6,14 @@ from dropi_cas_automation.config import AppConfig, initialize_workspace, load_co
 
 
 class ConfigTests(unittest.TestCase):
+    def test_yevalo_defaults_are_48_hours_in_bogota(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_path = Path(temp_dir) / "config.toml"
+            config_path.write_text('[workspace]\nroot = "runtime"\n', encoding="utf-8")
+            config = load_config(config_path)
+            self.assertEqual(config.minimum_hours_without_movement, 48)
+            self.assertEqual(config.movement_timezone, "America/Bogota")
+
     def test_loads_relative_paths_inside_config_directory(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

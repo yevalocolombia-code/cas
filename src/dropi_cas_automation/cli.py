@@ -280,10 +280,13 @@ def command_run(args: argparse.Namespace) -> int:
         refreshed_matches = [
             candidate
             for candidate in refreshed_candidates
-            if candidate.order_id == item.order_id and candidate.guide == item.guide
+            if candidate.guide == item.guide
         ]
-        if len(refreshed_matches) != 1:
+        if not refreshed_matches:
             results.append({"guide": item.guide, "status": "skipped_not_eligible_after_refresh"})
+            continue
+        if len(refreshed_matches) != 1 or refreshed_matches[0].order_id != item.order_id:
+            results.append({"guide": item.guide, "status": "blocked_ambiguous_after_refresh"})
             continue
         item = refreshed_matches[0]
         validation = validator.validate(item.order_id, item.carrier, allow_external_read=True)

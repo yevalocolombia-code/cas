@@ -5,9 +5,9 @@
 root = "./runtime"
 
 [rules]
-minimum_hours_without_movement = 24
+minimum_hours_without_movement = 48
 # IANA timezone used for provider timestamps that arrive without an offset.
-movement_timezone = "UTC"
+movement_timezone = "America/Bogota"
 
 [orders_source]
 # "excel" works with any authenticated Dropi browser session.
