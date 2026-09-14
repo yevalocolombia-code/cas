@@ -131,7 +131,9 @@ if '/dashboard/orders' not in (page_info().get('url') or ''):
     new_tab('https://app.dropi.co/dashboard/orders'); wait_for_load(25); time.sleep(3)
 if not js("!!document.querySelector('textarea')"):
     js("document.querySelector('button[title=\"Mostrar Filtros\"]')?.click()"); time.sleep(1)
-js("document.querySelector('#radio_shipping_guide')?.click()")
+guide_mode_set = js("(() => { const radio=document.querySelector('#radio_shipping_guide'); if(!radio)return false; radio.click(); return radio.checked === true; })()")
+if not guide_mode_set:
+    print('__JSON__'+json.dumps({'ok':False,'error':'guide_filter_mode_not_applied'})); raise SystemExit
 filter_set = js(f"""(() => {{ const field=document.querySelector('textarea'); if(!field)return false; const setter=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set; setter.call(field,{json.dumps(GUIDE)}); field.dispatchEvent(new Event('input',{{bubbles:true}})); field.dispatchEvent(new Event('change',{{bubbles:true}})); return field.value.trim() === {json.dumps(GUIDE)}; }})()""")
 if not filter_set:
     print('__JSON__'+json.dumps({'ok':False,'error':'guide_filter_not_applied'})); raise SystemExit
