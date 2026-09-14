@@ -46,19 +46,33 @@ if target:
     switch_tab(target)
 else:
     new_tab(orders_url)
+goto_url(orders_url)
 wait_for_load(20)
 time.sleep(2)
-info = page_info()
-text = js("document.body.innerText || ''") or ''
-url = str(info.get('url') or '')
-has_orders_token = bool(js("!!localStorage.getItem('DROPI_token')"))
-logged_in = has_orders_token and '/auth/login' not in url
-orders_visible = '/dashboard/orders' in url or 'Mis Pedidos' in text or 'Órdenes' in text
+
+def protected_probe():
+    info = page_info()
+    url = str(info.get('url') or '')
+    text = js("document.body.innerText || ''") or ''
+    has_orders_token = bool(js("!!localStorage.getItem('DROPI_token')"))
+    orders_visible = '/dashboard/orders' in url and any(marker in text for marker in ('Mis Pedidos', 'Órdenes', 'Mis ordenes'))
+    return {{'url': url, 'has_orders_token': has_orders_token, 'orders_visible': orders_visible}}
+
+first = protected_probe()
+time.sleep(2)
+second = protected_probe()
+logged_in = all((
+    first['has_orders_token'],
+    first['orders_visible'],
+    second['has_orders_token'],
+    second['orders_visible'],
+    '/auth/login' not in second['url'],
+))
 print('__JSON__' + json.dumps({{
     'ok': True,
-    'url': url,
+    'url': second['url'],
     'logged_in': logged_in,
-    'orders_visible': orders_visible,
+    'orders_visible': bool(first['orders_visible'] and second['orders_visible']),
 }}, ensure_ascii=False))
 '''
         payload = self._runner.execute_json(code, timeout_seconds=90)

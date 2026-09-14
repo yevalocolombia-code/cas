@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+import unicodedata
 from typing import FrozenSet
 
 from .models import EligibilityDecision, OrderSnapshot
@@ -34,7 +35,9 @@ class EligibilityPolicy:
 
 
 def normalize_status(value: str) -> str:
-    normalized = (value or "").replace("_", " ").replace("-", " ")
+    normalized = unicodedata.normalize("NFKD", value or "")
+    normalized = "".join(character for character in normalized if not unicodedata.combining(character))
+    normalized = normalized.replace("_", " ").replace("-", " ")
     return " ".join(normalized.strip().upper().split())
 
 

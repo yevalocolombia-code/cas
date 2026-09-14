@@ -41,19 +41,23 @@ class DropiAdapterTests(unittest.TestCase):
         self.assertEqual(len(runner.calls), 1)
         self.assertIn("https://app.dropi.co/dashboard/orders", runner.calls[0][0])
 
-    def test_diagnosis_uses_session_token_and_login_path_not_page_specific_text(self):
+    def test_diagnosis_navigates_to_protected_orders_and_checks_stability(self):
         runner = FakeRunner(
             {
                 "ok": True,
-                "url": "https://app.dropi.co/dashboard/cas/tray",
+                "url": "https://app.dropi.co/dashboard/orders/index",
                 "logged_in": True,
-                "orders_visible": False,
+                "orders_visible": True,
             }
         )
         result = DropiSessionAdapter(runner, allow_external_read=True).diagnose()
 
         code = runner.calls[0][0]
         self.assertTrue(result.logged_in)
+        self.assertTrue(result.orders_visible)
+        self.assertIn("goto_url", code)
+        self.assertEqual(code.count("first = protected_probe()"), 1)
+        self.assertEqual(code.count("second = protected_probe()"), 1)
         self.assertIn("localStorage.getItem('DROPI_token')", code)
-        self.assertIn("/auth/login", code)
+        self.assertIn("/dashboard/orders", code)
         self.assertNotIn("'Correo' not in", code)

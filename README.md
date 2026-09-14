@@ -155,8 +155,8 @@ Both sources feed the same local SQLite and the same subsequent history/CAS work
 .venv/bin/dropi-cas followups --config ./config.toml --dry-run
 .venv/bin/dropi-cas report --config ./config.toml
 
-# Real case creation: begin with one controlled guide.
-.venv/bin/dropi-cas run --config ./config.toml --execute --limit 1 \
+# Real case creation: exactly one previously reviewed guide.
+.venv/bin/dropi-cas run --config ./config.toml --execute --guide GUIDE \
   --allow-external-read --allow-external-writes \
   --case-service-type-id "YOUR_SERVICE_TYPE_ID"
 

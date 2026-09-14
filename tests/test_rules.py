@@ -28,7 +28,7 @@ class EligibilityRuleTests(unittest.TestCase):
         self.assertEqual(decision.status, "excluded_status")
 
     def test_normalizes_provider_status_separators_before_exclusion(self):
-        for status in ("GUIA_GENERADA", "PENDIENTE-CONFIRMACION", "GUIA   GENERADA"):
+        for status in ("GUIA_GENERADA", "PENDIENTE-CONFIRMACION", "GUIA   GENERADA", "DEVOLUCIÓN"):
             with self.subTest(status=status):
                 decision = evaluate_order(make_order(status=status, hours=72), EligibilityPolicy())
                 self.assertEqual(decision.status, "excluded_status")

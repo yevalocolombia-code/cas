@@ -55,8 +55,18 @@ def collect_summary(cli: str, config: str, browser_command: str) -> dict[str, An
     )
     if diagnosis.get("logged_in") is not True:
         raise CycleError("dropi_session_not_authenticated")
+    if diagnosis.get("orders_visible") is not True:
+        raise CycleError("dropi_orders_view_not_confirmed")
 
-    sync = _invoke(cli, "sync", "--config", config, "--allow-external-read")
+    sync = _invoke(
+        cli,
+        "sync",
+        "--config",
+        config,
+        "--allow-external-read",
+        "--browser-command",
+        browser_command,
+    )
     candidates = _invoke(cli, "candidates", "--config", config)
     followups = _invoke(cli, "followups", "--config", config, "--dry-run")
     report = _invoke(cli, "report", "--config", config)

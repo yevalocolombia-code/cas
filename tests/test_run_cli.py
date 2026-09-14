@@ -43,6 +43,8 @@ class RunCliTests(unittest.TestCase):
                         "--config",
                         str(config),
                         "--execute",
+                        "--guide",
+                        "034000000001",
                         "--allow-external-read",
                         "--allow-external-writes",
                     ]
@@ -51,3 +53,35 @@ class RunCliTests(unittest.TestCase):
             payload = json.loads(stream.getvalue())
             self.assertFalse(payload["ok"])
             self.assertIn("case-service-type-id", payload["error"])
+
+    def test_execute_requires_one_explicit_guide_and_rejects_invalid_limit(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            config = root / "config.toml"
+            config.write_text('[workspace]\nroot = "runtime"\n', encoding="utf-8")
+            for extra_args in (
+                [],
+                ["--guide", "034000000001", "--limit", "-1"],
+                ["--guide", "034000000001", "--limit", "2"],
+            ):
+                with self.subTest(extra_args=extra_args):
+                    stream = io.StringIO()
+                    with redirect_stdout(stream):
+                        result = main(
+                            [
+                                "run",
+                                "--config",
+                                str(config),
+                                "--execute",
+                                "--allow-external-read",
+                                "--allow-external-writes",
+                                "--case-service-type-id",
+                                "service-type",
+                                *extra_args,
+                            ]
+                        )
+                    self.assertEqual(result, 2)
+                    payload = json.loads(stream.getvalue())
+                    self.assertFalse(payload["ok"])
+                    expected_word = "guide" if not extra_args or extra_args[-1] == "2" else "limit"
+                    self.assertIn(expected_word, payload["error"].lower())

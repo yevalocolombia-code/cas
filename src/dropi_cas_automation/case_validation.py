@@ -28,7 +28,30 @@ class DropiCaseValidator:
         if not allow_external_read:
             raise PermissionError("External reads are disabled. Explicit read authorization is required to validate a remote case.")
         data = self.runner.execute_json(self._script(order_id, carrier), timeout_seconds=120)
-        return CaseValidationResult(str(data.get("status") or "error"), data.get("chat_id"), data)
+        status = str(data.get("status") or "validation_error")
+        raw_checks = data.get("checks")
+        checks: dict[str, Any] = raw_checks if isinstance(raw_checks, dict) else {}
+        complete_checks = all(checks.get(name) is True for name in ("validation_ok", "search_ok", "search_schema_ok"))
+        if status == "eligible" and not complete_checks:
+            status = "validation_error"
+        if status == "existing_case" and (not complete_checks or not data.get("chat_id")):
+            status = "validation_error"
+        allowed = {
+            "eligible",
+            "existing_case",
+            "not_eligible",
+            "session_missing",
+            "service_type_missing",
+            "validation_http_error",
+            "validation_schema_error",
+            "case_search_http_error",
+            "case_search_schema_error",
+            "network_error",
+            "validation_error",
+        }
+        if status not in allowed:
+            status = "validation_error"
+        return CaseValidationResult(status, data.get("chat_id") if status == "existing_case" else None, data)
 
     def _script(self, order_id: str, carrier: str) -> str:
         return r'''
@@ -40,18 +63,36 @@ script = f"""(async () => {{
   const ORDER_ID = {json.dumps(ORDER_ID)};
   const CARRIER = {json.dumps(CARRIER)};
   const SERVICE_TYPE = {json.dumps(SERVICE_TYPE)};
-  const ordersToken = JSON.parse(localStorage.getItem('DROPI_token') || 'null');
-  const casToken = JSON.parse(localStorage.getItem('casToken') || 'null');
-  if (!ordersToken || !casToken) return {{status:'session_missing'}};
-  const ordersHeaders = {{Authorization:'Bearer ' + ordersToken, 'X-Authorization':'Bearer ' + ordersToken}};
-  const validation = await fetch('https://api.dropi.co/api/orders/validate-any-case-carriers?order_id=' + encodeURIComponent(ORDER_ID), {{headers:ordersHeaders}}).then(r => r.json());
-  if (!validation?.objects?.ORDER_WITHOUT_MOVEMENT) return {{status:'not_eligible', validation}};
-  if (!SERVICE_TYPE) return {{status:'eligible', validation}};
-  const headers = {{Authorization:'Bearer ' + casToken, 'Content-Type':'application/json'}};
-  const query = {{enterpriseNames:[CARRIER], serviceTypeId:SERVICE_TYPE, referenceObjects:[{{id:Number(ORDER_ID), type:'ORDER'}}], status_chat:['active','queues','postponed','to_reopen','close','closed','finalized']}};
-  const search = await fetch('https://api-v2.dropi.co/cas/api/v1/chats/search', {{method:'POST',headers,body:JSON.stringify(query)}}).then(r => r.json());
-  const active = (search?.data || []).find(item => !['close','closed','finalized'].includes(String(item?.casChat?.status || '').toLowerCase()));
-  return active ? {{status:'existing_case', chat_id:active?.casChat?._id, search}} : {{status:'eligible', validation, search}};
+  const checks = {{validation_ok:false, search_ok:false, search_schema_ok:false}};
+  try {{
+    const ordersToken = JSON.parse(localStorage.getItem('DROPI_token') || 'null');
+    const casToken = JSON.parse(localStorage.getItem('casToken') || 'null');
+    if (!ordersToken || !casToken) return {{status:'session_missing', checks}};
+    if (!SERVICE_TYPE) return {{status:'service_type_missing', checks}};
+    const ordersHeaders = {{Authorization:'Bearer ' + ordersToken, 'X-Authorization':'Bearer ' + ordersToken}};
+    const validationResponse = await fetch('https://api.dropi.co/api/orders/validate-any-case-carriers?order_id=' + encodeURIComponent(ORDER_ID), {{headers:ordersHeaders}});
+    if (!validationResponse.ok) return {{status:'validation_http_error', checks}};
+    const validationPayload = await validationResponse.json();
+    if (!validationPayload || typeof validationPayload !== 'object' || !validationPayload.objects || typeof validationPayload.objects.ORDER_WITHOUT_MOVEMENT !== 'boolean') {{
+      return {{status:'validation_schema_error', checks}};
+    }}
+    checks.validation_ok = true;
+    if (!validationPayload.objects.ORDER_WITHOUT_MOVEMENT) return {{status:'not_eligible', checks}};
+    const headers = {{Authorization:'Bearer ' + casToken, 'Content-Type':'application/json'}};
+    const query = {{enterpriseNames:[CARRIER], serviceTypeId:SERVICE_TYPE, referenceObjects:[{{id:Number(ORDER_ID), type:'ORDER'}}], status_chat:['active','queues','postponed','to_reopen','close','closed','finalized']}};
+    const searchResponse = await fetch('https://api-v2.dropi.co/cas/api/v1/chats/search', {{method:'POST',headers,body:JSON.stringify(query)}});
+    if (!searchResponse.ok) return {{status:'case_search_http_error', checks}};
+    checks.search_ok = true;
+    const searchPayload = await searchResponse.json();
+    if (!searchPayload || typeof searchPayload !== 'object' || !Array.isArray(searchPayload.data)) {{
+      return {{status:'case_search_schema_error', checks}};
+    }}
+    checks.search_schema_ok = true;
+    const active = searchPayload.data.find(item => !['close','closed','finalized'].includes(String(item?.casChat?.status || '').toLowerCase()));
+    return active ? {{status:'existing_case', chat_id:String(active?.casChat?._id || ''), checks}} : {{status:'eligible', checks}};
+  }} catch (error) {{
+    return {{status:'network_error', checks}};
+  }}
 }})()"""
 print('__JSON__' + json.dumps(js(script), ensure_ascii=False))
 '''.replace("__ORDER_ID__", json.dumps(order_id)).replace("__CARRIER__", json.dumps(carrier)).replace("__SERVICE_TYPE__", json.dumps(self.case_service_type_id))

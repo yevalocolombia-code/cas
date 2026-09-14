@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Sequence
 
-from .browser_harness import BrowserHarnessRunner
+from .browser_harness import BrowserHarnessError, BrowserHarnessRunner
 from .candidates import load_candidates
 from .case_creation import DropiCaseCreator
 from .case_store import record_created_case
@@ -230,11 +230,19 @@ def command_preflight(args: argparse.Namespace) -> int:
 def command_run(args: argparse.Namespace) -> int:
     config = _setup(args.config)
     candidates = load_candidates(config.database_path, minimum_hours_without_movement=config.minimum_hours_without_movement)
+    if args.guide:
+        candidates = [candidate for candidate in candidates if candidate.guide == args.guide]
     if args.limit is not None:
+        if args.limit < 1:
+            raise ValueError("--limit must be at least 1.")
         candidates = candidates[:args.limit]
     if args.dry_run:
         print(json.dumps({"ok": True, "mode": "dry_run", "candidate_count": len(candidates), "candidates": [{"order_id": item.order_id, "guide": item.guide} for item in candidates]}))
         return 0
+    if not args.guide or args.limit not in (None, 1):
+        raise PermissionError(
+            "run --execute requires exactly one explicit --guide; --limit must be omitted or set to 1."
+        )
     if not (args.allow_external_read and args.allow_external_writes and args.case_service_type_id):
         raise PermissionError(
             "run --execute requires --allow-external-read, --allow-external-writes, "
@@ -343,6 +351,7 @@ def build_parser() -> argparse.ArgumentParser:
     preflight.set_defaults(handler=command_preflight)
     run = commands.add_parser("run", help="Run CAS candidates in dry-run mode or with explicit external read/write permissions.")
     run.add_argument("--config", required=True)
+    run.add_argument("--guide", help="Operate only the explicitly approved guide; required with --execute.")
     mode = run.add_mutually_exclusive_group(required=True)
     mode.add_argument("--dry-run", action="store_true")
     mode.add_argument("--execute", action="store_true")
@@ -370,7 +379,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return args.handler(args)
-    except (OSError, ValueError, KeyError, json.JSONDecodeError) as error:
+    except (OSError, ValueError, KeyError, json.JSONDecodeError, BrowserHarnessError) as error:
         print(json.dumps({"ok": False, "error": str(error)}))
         return 2
 

@@ -61,11 +61,28 @@ class DropiCasWatchdogTests(unittest.TestCase):
                 [call[0] for call in invoked],
                 ["diagnose-dropi", "sync", "candidates", "followups", "report"],
             )
+            sync_call = next(call for call in invoked if call[0] == "sync")
+            self.assertIn("--browser-command", sync_call)
+            self.assertIn("browser-harness", sync_call)
             self.assertEqual(summary["candidate_count"], 3)
             self.assertEqual(summary["followups_due"], 1)
             self.assertEqual(summary["orders"], 1443)
             self.assertNotIn("guide", json.dumps(summary))
             self.assertNotIn("order_id", json.dumps(summary))
+
+    def test_collect_summary_fails_closed_when_orders_view_is_not_confirmed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            cli, calls = self._fake_cli(root)
+            cli.write_text(
+                cli.read_text(encoding="utf-8").replace("'orders_visible': True", "'orders_visible': False"),
+                encoding="utf-8",
+            )
+            with patch.dict(os.environ, {"WATCHDOG_CALLS": str(calls)}):
+                module = load_watchdog()
+                with self.assertRaises(module.CycleError) as raised:
+                    module.collect_summary(str(cli), "config.toml", "browser-harness")
+            self.assertEqual(raised.exception.code, "dropi_orders_view_not_confirmed")
 
     def test_main_emits_on_state_change_then_stays_silent(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
