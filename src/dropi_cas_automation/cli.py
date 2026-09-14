@@ -268,7 +268,6 @@ def command_run(args: argparse.Namespace) -> int:
     runner = BrowserHarnessRunner(command=args.browser_command)
     validator = DropiCaseValidator(runner, case_service_type_id=args.case_service_type_id)
     evidence = EvidenceCapture(runner, config.evidence_dir)
-    creator = DropiCaseCreator(runner)
     results = []
     for item in candidates:
         refresh_guide_history(config.database_path, DropiHistoryReader(runner), item.guide, allow_external_read=True)
@@ -296,6 +295,11 @@ def command_run(args: argparse.Namespace) -> int:
         path = evidence.capture(item.guide, allow_external_read=True)
         threshold = f"{config.minimum_hours_without_movement:g}"
         message = f"Buen día. La guía lleva {threshold} horas o más sin actualización. Solicito validar y gestionar avance prioritario. Gracias."
+        creator = DropiCaseCreator(
+            runner,
+            case_service_type_id=args.case_service_type_id,
+            case_ticket_id=str(validation.ticket_id),
+        )
         created = creator.create(item.order_id, item.guide, message, path, allow_external_writes=True)
         if created.status == "existing_case":
             results.append({"guide": item.guide, "status": "existing_case"})

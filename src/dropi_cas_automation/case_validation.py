@@ -9,6 +9,7 @@ from typing import Any, Protocol
 class CaseValidationResult:
     status: str
     chat_id: str | None = None
+    ticket_id: str | None = None
     raw: dict[str, Any] | None = None
 
 
@@ -33,9 +34,9 @@ class DropiCaseValidator:
         checks: dict[str, Any] = raw_checks if isinstance(raw_checks, dict) else {}
         complete_checks = all(
             checks.get(name) is True
-            for name in ("validation_ok", "search_ok", "search_schema_ok", "service_type_ok", "identity_ok")
+            for name in ("validation_ok", "search_ok", "search_schema_ok", "service_type_ok", "ticket_ok", "identity_ok")
         )
-        if status == "eligible" and not complete_checks:
+        if status == "eligible" and (not complete_checks or not isinstance(data.get("ticket_id"), str) or not data["ticket_id"]):
             status = "validation_error"
         if status == "existing_case" and (not complete_checks or not data.get("chat_id")):
             status = "validation_error"
@@ -58,7 +59,12 @@ class DropiCaseValidator:
         }
         if status not in allowed:
             status = "validation_error"
-        return CaseValidationResult(status, data.get("chat_id") if status == "existing_case" else None, data)
+        return CaseValidationResult(
+            status=status,
+            chat_id=data.get("chat_id") if status == "existing_case" else None,
+            ticket_id=data.get("ticket_id") if status == "eligible" else None,
+            raw=data,
+        )
 
     def _script(self, order_id: str, carrier: str) -> str:
         return r'''
@@ -70,7 +76,7 @@ script = f"""(async () => {{
   const ORDER_ID = {json.dumps(ORDER_ID)};
   const CARRIER = {json.dumps(CARRIER)};
   const SERVICE_TYPE = {json.dumps(SERVICE_TYPE)};
-  const checks = {{validation_ok:false, search_ok:false, search_schema_ok:false, service_type_ok:false, identity_ok:false}};
+  const checks = {{validation_ok:false, search_ok:false, search_schema_ok:false, service_type_ok:false, ticket_ok:false, identity_ok:false}};
   try {{
     if (!/^\d+$/.test(ORDER_ID)) return {{status:'invalid_order_id', checks}};
     const numericOrderId = Number(ORDER_ID);
@@ -89,7 +95,7 @@ script = f"""(async () => {{
     checks.validation_ok = true;
     if (!validationPayload.objects.ORDER_WITHOUT_MOVEMENT) return {{status:'not_eligible', checks}};
     const headers = {{Authorization:'Bearer ' + casToken, 'Content-Type':'application/json'}};
-    const query = {{enterpriseNames:[CARRIER], serviceTypeId:SERVICE_TYPE, referenceObjects:[{{id:numericOrderId, type:'ORDER'}}], status_chat:['active','queues','postponed','to_reopen','close','closed','finalized'], version:'2.0.4'}};
+    const query = {{referenceObjects:[{{id:numericOrderId, type:'ORDER'}}], status_chat:['active','queues','postponed','to_reopen','close','closed','finalized'], version:'2.0.4'}};
     const searchResponse = await fetch('https://api-v2.dropi.co/cas/api/v1/chats/search', {{method:'POST',headers,body:JSON.stringify(query)}});
     if (!searchResponse.ok) return {{status:'case_search_http_error', checks}};
     checks.search_ok = true;
@@ -98,11 +104,6 @@ script = f"""(async () => {{
       return {{status:'case_search_schema_error', checks}};
     }}
     checks.search_schema_ok = true;
-    if (searchPayload.data.length === 0) {{
-      checks.service_type_ok = true;
-      checks.identity_ok = true;
-      return {{status:'eligible', checks}};
-    }}
     const ticketResponse = await fetch(
       'https://api-v2.dropi.co/cas/api/v1/cas-types-tickets?casServiceType=' + encodeURIComponent(SERVICE_TYPE),
       {{headers:{{Authorization:'Bearer ' + casToken}}}}
@@ -121,8 +122,11 @@ script = f"""(async () => {{
     const serviceTicketIds = new Set(serviceTickets.map(ticket => String(ticket._id)));
     checks.service_type_ok = true;
     const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase();
+    const expectedTickets = serviceTickets.filter(ticket => normalize(ticket?.name) === 'ORDENES SIN MOVIMIENTO');
+    if (expectedTickets.length !== 1) return {{status:'service_type_schema_error', checks}};
+    const expectedTicketId = String(expectedTickets[0]._id);
+    checks.ticket_ok = true;
     const expectedOrderId = String(numericOrderId);
-    const expectedCarrier = normalize(CARRIER);
     const inspect = item => {{
       const chat = item?.casChat && typeof item.casChat === 'object' ? item.casChat : item;
       const references = [];
@@ -133,14 +137,7 @@ script = f"""(async () => {{
       const orderMatches = references.some(reference =>
         String(reference?.id ?? '') === expectedOrderId && normalize(reference?.type) === 'ORDER'
       );
-      const ticketId = String(item?.casTicketType?._id ?? item?.casTicketType?.id ?? '');
-      const carrierValues = [
-        chat?.enterpriseName, chat?.enterprise?.name, item?.enterpriseName, item?.enterprise?.name,
-        ...(Array.isArray(chat?.enterpriseNames) ? chat.enterpriseNames : []),
-        ...(Array.isArray(item?.enterpriseNames) ? item.enterpriseNames : []),
-      ];
-      const carrierMatches = carrierValues.some(value => normalize(value) === expectedCarrier);
-      const identityMatches = orderMatches && serviceTicketIds.has(ticketId) && carrierMatches;
+      const identityMatches = orderMatches;
       const status = normalize(chat?.status).toLowerCase();
       const chatId = String(chat?._id ?? chat?.id ?? item?.chatId ?? '');
       return {{identityMatches, status, chatId}};
@@ -150,9 +147,11 @@ script = f"""(async () => {{
       return {{status:'ambiguous_case_search_response', checks}};
     }}
     checks.identity_ok = true;
-    const active = inspected.find(result => !['close','closed','finalized'].includes(result.status));
-    if (active && !active.chatId) return {{status:'ambiguous_case_search_response', checks}};
-    return active ? {{status:'existing_case', chat_id:active.chatId, checks}} : {{status:'eligible', checks}};
+    if (searchPayload.data.length > 0) {{
+      if (inspected.some(result => !result.chatId)) return {{status:'ambiguous_case_search_response', checks}};
+      return {{status:'existing_case', chat_id:inspected[0].chatId, checks}};
+    }}
+    return {{status:'eligible', ticket_id:expectedTicketId, checks}};
   }} catch (error) {{
     return {{status:'network_error', checks}};
   }}
