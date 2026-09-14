@@ -40,3 +40,6 @@ class CaseCreationTests(unittest.TestCase):
             self.assertIn("cas-types-tickets?casServiceType=", runner.code)
             self.assertIn("click_unique_exact", runner.code)
             self.assertIn("selection_ambiguous", runner.code)
+            self.assertIn("visibleRows.length !== 1", runner.code)
+            self.assertIn("cellText.includes(ORDER_ID)", runner.code)
+            self.assertIn("guideLinks.length === 1", runner.code)

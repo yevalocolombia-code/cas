@@ -132,13 +132,28 @@ if '/dashboard/orders' not in (page_info().get('url') or ''):
 if not js("!!document.querySelector('textarea')"):
     js("document.querySelector('button[title=\"Mostrar Filtros\"]')?.click()"); time.sleep(1)
 js("document.querySelector('#radio_shipping_guide')?.click()")
-js(f"""(() => {{ const field=document.querySelector('textarea'); if(!field)return false; const setter=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set; setter.call(field,{json.dumps(GUIDE)}); field.dispatchEvent(new Event('input',{{bubbles:true}})); field.dispatchEvent(new Event('change',{{bubbles:true}})); return true; }})()""")
+filter_set = js(f"""(() => {{ const field=document.querySelector('textarea'); if(!field)return false; const setter=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set; setter.call(field,{json.dumps(GUIDE)}); field.dispatchEvent(new Event('input',{{bubbles:true}})); field.dispatchEvent(new Event('change',{{bubbles:true}})); return field.value.trim() === {json.dumps(GUIDE)}; }})()""")
+if not filter_set:
+    print('__JSON__'+json.dumps({'ok':False,'error':'guide_filter_not_applied'})); raise SystemExit
 if not click_unique_exact('Ok').get('ok'):
     print('__JSON__'+json.dumps({'ok':False,'error':'selection_ambiguous','stage':'order_filter'})); raise SystemExit
 time.sleep(4); wait_for_load()
-opened = js(f"""(() => {{ const row=[...document.querySelectorAll('table tbody tr')].find(item=>item.innerText.includes({json.dumps(GUIDE)})); const link=row?.querySelector('a[title="Nueva consulta"]'); if(!link)return false; link.click(); return true; }})()""")
-if not opened:
-    print('__JSON__'+json.dumps({'ok':False,'error':'new_case_action_not_found'})); raise SystemExit
+opened = js(f"""(() => {{
+  const visible = element => {{ const r=element.getBoundingClientRect(); return r.width>0 && r.height>0; }};
+  const visibleRows = [...document.querySelectorAll('table tbody tr')].filter(visible);
+  if (visibleRows.length !== 1) return {{ok:false,error:'guide_filter_not_unique',count:visibleRows.length}};
+  const matchingRows = visibleRows.filter(row => {{
+    const cellText = [...row.querySelectorAll('td')].map(cell => (cell.innerText || cell.textContent || '').trim());
+    const guideLinks = [...row.querySelectorAll('a')].filter(link => (link.innerText || link.textContent || '').trim() === {json.dumps(GUIDE)});
+    return cellText.includes(ORDER_ID) && guideLinks.length === 1;
+  }});
+  if (matchingRows.length !== 1) return {{ok:false,error:'order_guide_identity_mismatch'}};
+  const actions = [...matchingRows[0].querySelectorAll('a[title="Nueva consulta"]')].filter(visible);
+  if (actions.length !== 1) return {{ok:false,error:'new_case_action_ambiguous',count:actions.length}};
+  actions[0].click(); return {{ok:true}};
+}})()""")
+if not opened or not opened.get('ok'):
+    print('__JSON__'+json.dumps({'ok':False,'error':(opened or {}).get('error','new_case_action_not_found')})); raise SystemExit
 time.sleep(1); wait_for_load()
 if 'Orden ya tiene un caso' in body():
     print('__JSON__'+json.dumps({'ok':True,'status':'existing_case','url':page_info().get('url') or ''}, ensure_ascii=False)); raise SystemExit

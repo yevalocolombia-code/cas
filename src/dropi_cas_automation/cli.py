@@ -339,7 +339,11 @@ def command_followups(args: argparse.Namespace) -> int:
             mark_followup_skipped(config.database_path, item.id, f"active_case_not_confirmed:{validation.status}")
             results.append({"guide": item.guide, "status": "skipped_active_case_not_confirmed"})
             continue
-        sender.send(item.chat_id, message, allow_external_writes=True)
+        if not validation.chat_id or validation.chat_id != item.chat_id:
+            mark_followup_skipped(config.database_path, item.id, "validated_chat_mismatch")
+            results.append({"guide": item.guide, "status": "skipped_validated_chat_mismatch"})
+            continue
+        sender.send(validation.chat_id, message, allow_external_writes=True)
         mark_followup_sent(config.database_path, item.id, message)
         results.append({"guide": item.guide, "status": "sent", "chat_id": item.chat_id})
     print(json.dumps({"ok": True, "mode": "execute", "results": results}))
