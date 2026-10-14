@@ -1,4 +1,8 @@
+import fcntl
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 
 
@@ -32,12 +36,71 @@ class SystemdUnitTests(unittest.TestCase):
         self.assertIn("--movement-timezone America/Bogota", text)
         self.assertIn("--max-runtime-seconds 7200", text)
         self.assertIn("--output-report /opt/dropi-cas/runtime/daily-cas-report.json", text)
-        self.assertIn("TimeoutStartSec=7500", text)
+        self.assertIn("TimeoutStartSec=9600", text)
         self.assertIn("KillMode=control-group", text)
         self.assertIn("/usr/bin/flock --exclusive --timeout 125 --no-fork ${DROPI_SHARED_LOCK}", text)
         self.assertIn("ProtectSystem=strict", text)
         self.assertIn("ProtectHome=read-only", text)
         self.assertNotIn("Persistent=true", text)
+
+    def test_daily_service_runs_followups_after_known_partial_creation_result(self):
+        text = (ROOT / "deploy/systemd/dropi-cas-daily.service").read_text(encoding="utf-8")
+        expected_followups = (
+            "ExecStartPost=/opt/dropi-cas/.venv/bin/python "
+            "/opt/dropi-cas/scripts/dropi-cas-followups.py "
+            "--allow-external-read --allow-external-writes --budget-seconds 1800 "
+            "--journal /opt/dropi-cas/runtime/cas-followups-journal.jsonl "
+            "--report /opt/dropi-cas/runtime/reports/cas-followups-report.json "
+            "--browser-command /opt/dropi-cas/scripts/dropi-browser-harness"
+        )
+
+        self.assertIn("SuccessExitStatus=2", text)
+        self.assertIn(expected_followups, text)
+        self.assertNotIn("ExecStartPost=/usr/bin/flock", text)
+        self.assertLess(text.index("ExecStart="), text.index("ExecStartPost="))
+
+    def test_daily_outer_lock_is_released_before_independent_followup_phase(self):
+        """The post phase starts only after the no-fork daily lock holder exits."""
+        text = (ROOT / "deploy/systemd/dropi-cas-daily.service").read_text(encoding="utf-8")
+        self.assertIn("/usr/bin/flock --exclusive --timeout 125 --no-fork ${DROPI_SHARED_LOCK}", text)
+        self.assertIn("ExecStartPost=/opt/dropi-cas/.venv/bin/python", text)
+
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            temporary_path = Path(temporary_directory)
+            lock_path = temporary_path / "shared.lock"
+            daily_event = temporary_path / "daily-finished"
+            followup_event = temporary_path / "followups-finished"
+
+            subprocess.run(
+                [
+                    "/usr/bin/flock",
+                    "--exclusive",
+                    "--timeout",
+                    "1",
+                    "--no-fork",
+                    str(lock_path),
+                    sys.executable,
+                    "-c",
+                    "from pathlib import Path; import sys; Path(sys.argv[1]).write_text('daily')",
+                    str(daily_event),
+                ],
+                check=True,
+            )
+
+            with lock_path.open("a+", encoding="utf-8") as lock_file:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                subprocess.run(
+                    [
+                        sys.executable,
+                        "-c",
+                        "from pathlib import Path; import sys; Path(sys.argv[1]).write_text('followups')",
+                        str(followup_event),
+                    ],
+                    check=True,
+                )
+
+            self.assertEqual("daily", daily_event.read_text(encoding="utf-8"))
+            self.assertEqual("followups", followup_event.read_text(encoding="utf-8"))
 
     def test_daily_timer_is_daily_bogota_without_catchup(self):
         text = (ROOT / "deploy/systemd/dropi-cas-daily.timer").read_text(encoding="utf-8")

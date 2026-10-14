@@ -14,8 +14,15 @@ Environment=HOME=/root
 Environment=PYTHONUNBUFFERED=1
 EnvironmentFile=/opt/dropi-cas/runtime/daily-cas.env
 WorkingDirectory=/opt/dropi-cas
+# Exit status 2 is the creator's known partial/read-blocked outcome.  It lets
+# systemd run the independent post phase; it does not mean any CAS is resolved.
+SuccessExitStatus=2
 ExecStart=/usr/bin/flock --exclusive --timeout 125 --no-fork ${DROPI_SHARED_LOCK} /opt/dropi-cas/.venv/bin/python /opt/dropi-cas/scripts/dropi-cas-daily.py --config /opt/dropi-cas/config.toml --case-service-type-id ${CAS_SERVICE_TYPE_ID} --allow-external-writes --minimum-hours 48 --movement-timezone America/Bogota --max-runtime-seconds 7200 --journal /opt/dropi-cas/runtime/daily-cas-journal.jsonl --output-report /opt/dropi-cas/runtime/daily-cas-report.json --dropi-cas-command /opt/dropi-cas/.venv/bin/dropi-cas --browser-command /opt/dropi-cas/scripts/dropi-browser-harness
-TimeoutStartSec=7500
+# The no-fork flock above is released before this post phase starts.  The
+# follow-up runner acquires DROPI_SHARED_LOCK itself, avoiding a nested lock.
+ExecStartPost=/opt/dropi-cas/.venv/bin/python /opt/dropi-cas/scripts/dropi-cas-followups.py --allow-external-read --allow-external-writes --budget-seconds 1800 --journal /opt/dropi-cas/runtime/cas-followups-journal.jsonl --report /opt/dropi-cas/runtime/reports/cas-followups-report.json --browser-command /opt/dropi-cas/scripts/dropi-browser-harness
+# 7200s creation + 1800s follow-ups + 125s lock wait and shutdown margin.
+TimeoutStartSec=9600
 KillMode=control-group
 NoNewPrivileges=yes
 PrivateDevices=yes

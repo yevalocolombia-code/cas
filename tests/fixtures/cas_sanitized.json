@@ -1,0 +1,3705 @@
+[
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000001",
+        "status": "queues",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-11T07:04:10.571Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10001,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000001",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "0000000000000000000003f2",
+        "createdAt": "2026-10-14T07:06:44.707Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "0000000000000000000003e9",
+        "casChat": "000000000000000000000001",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:04:10.671Z",
+        "deviceDateCreate": "2026-10-11T07:04:10.671Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003ea",
+        "casChat": "000000000000000000000001",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:04:11.234Z",
+        "deviceDateCreate": "2026-10-11T07:04:11.234Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003eb",
+        "casChat": "000000000000000000000001",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:04:11.264Z",
+        "deviceDateCreate": "2026-10-11T07:04:11.264Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003ec",
+        "casChat": "000000000000000000000001",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:04:11.797Z",
+        "deviceDateCreate": "2026-10-11T07:04:11.797Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003ed",
+        "casChat": "000000000000000000000001",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:10:46.536Z",
+        "deviceDateCreate": "2026-10-12T07:10:46.288Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003ee",
+        "casChat": "000000000000000000000001",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:10:47.000Z",
+        "deviceDateCreate": "2026-10-12T07:10:46.717Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003ef",
+        "casChat": "000000000000000000000001",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:14:23.033Z",
+        "deviceDateCreate": "2026-10-12T07:14:23.033Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003f0",
+        "casChat": "000000000000000000000001",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:14:23.060Z",
+        "deviceDateCreate": "2026-10-12T07:14:23.060Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003f1",
+        "casChat": "000000000000000000000001",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:07:51.656Z",
+        "deviceDateCreate": "2026-10-13T07:07:50.937Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000003f2",
+        "casChat": "000000000000000000000001",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-14T07:06:44.707Z",
+        "deviceDateCreate": "2026-10-14T07:06:44.457Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000002",
+        "status": "queues",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-11T07:05:33.901Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10002,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000002",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "0000000000000000000007d9",
+        "createdAt": "2026-10-13T07:08:04.786Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "0000000000000000000007d1",
+        "casChat": "000000000000000000000002",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:05:34.017Z",
+        "deviceDateCreate": "2026-10-11T07:05:34.017Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d2",
+        "casChat": "000000000000000000000002",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:05:34.571Z",
+        "deviceDateCreate": "2026-10-11T07:05:34.571Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d3",
+        "casChat": "000000000000000000000002",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:05:34.599Z",
+        "deviceDateCreate": "2026-10-11T07:05:34.599Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d4",
+        "casChat": "000000000000000000000002",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:05:35.115Z",
+        "deviceDateCreate": "2026-10-11T07:05:35.115Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d5",
+        "casChat": "000000000000000000000002",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:11.390Z",
+        "deviceDateCreate": "2026-10-12T07:11:11.108Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d6",
+        "casChat": "000000000000000000000002",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:11.736Z",
+        "deviceDateCreate": "2026-10-12T07:11:11.478Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d7",
+        "casChat": "000000000000000000000002",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:14:23.763Z",
+        "deviceDateCreate": "2026-10-12T07:14:23.763Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d8",
+        "casChat": "000000000000000000000002",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:14:23.791Z",
+        "deviceDateCreate": "2026-10-12T07:14:23.791Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000007d9",
+        "casChat": "000000000000000000000002",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:08:04.786Z",
+        "deviceDateCreate": "2026-10-13T07:08:04.002Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000003",
+        "status": "queues",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-11T07:06:03.049Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10003,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000003",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000000bbd",
+        "createdAt": "2026-10-14T07:06:20.535Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000000bb9",
+        "casChat": "000000000000000000000003",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:06:03.168Z",
+        "deviceDateCreate": "2026-10-11T07:06:03.168Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000000bba",
+        "casChat": "000000000000000000000003",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:06:03.705Z",
+        "deviceDateCreate": "2026-10-11T07:06:03.705Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000000bbb",
+        "casChat": "000000000000000000000003",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:10.678Z",
+        "deviceDateCreate": "2026-10-12T07:11:10.427Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000000bbc",
+        "casChat": "000000000000000000000003",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:08:06.654Z",
+        "deviceDateCreate": "2026-10-13T07:08:06.349Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000000bbd",
+        "casChat": "000000000000000000000003",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-14T07:06:20.535Z",
+        "deviceDateCreate": "2026-10-14T07:06:20.188Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000004",
+        "status": "queues",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-14T07:02:46.017Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10004,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000004",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {}
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000000fa1",
+        "casChat": "000000000000000000000004",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-14T07:02:46.122Z",
+        "deviceDateCreate": "2026-10-14T07:02:46.122Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000000fa2",
+        "casChat": "000000000000000000000004",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-14T07:02:46.755Z",
+        "deviceDateCreate": "2026-10-14T07:02:46.755Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000005",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-08-30T07:04:24.261Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10005,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000005",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "0000000000000000000013a9",
+        "createdAt": "2026-09-25T07:09:25.363Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000001389",
+        "casChat": "000000000000000000000005",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-08-30T07:04:24.363Z",
+        "deviceDateCreate": "2026-08-30T07:04:24.363Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000138a",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-08-31T07:24:06.094Z",
+        "deviceDateCreate": "2026-08-31T07:24:05.930Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000138b",
+        "casChat": "000000000000000000000005",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-08-31T20:54:05.189Z",
+        "deviceDateCreate": "2026-08-31T20:54:05.187Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000138c",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-08-31T20:54:08.954Z",
+        "deviceDateCreate": "2026-08-31T20:53:00.924Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000138d",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-08-31T20:54:14.627Z",
+        "deviceDateCreate": "2026-08-31T20:53:06.621Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000138e",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-08-31T20:54:18.675Z",
+        "deviceDateCreate": "2026-08-31T20:53:10.790Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000138f",
+        "casChat": "000000000000000000000005",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-08-31T20:54:28.102Z",
+        "deviceDateCreate": "2026-08-31T20:53:20.099Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001390",
+        "casChat": "000000000000000000000005",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-09-01T07:04:22.291Z",
+        "deviceDateCreate": "2026-09-01T07:04:22.136Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001391",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-01T07:04:22.449Z",
+        "deviceDateCreate": "2026-09-01T07:04:22.319Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001392",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-02T07:19:44.830Z",
+        "deviceDateCreate": "2026-09-02T07:19:44.629Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001393",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-03T07:21:11.993Z",
+        "deviceDateCreate": "2026-09-03T07:21:11.855Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001394",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T07:07:02.855Z",
+        "deviceDateCreate": "2026-09-04T07:07:02.710Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001395",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-05T07:06:30.968Z",
+        "deviceDateCreate": "2026-09-05T07:06:30.819Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001396",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-06T07:10:12.243Z",
+        "deviceDateCreate": "2026-09-06T07:10:12.089Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001397",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-07T07:12:20.852Z",
+        "deviceDateCreate": "2026-09-07T07:12:20.706Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001398",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-08T07:07:00.087Z",
+        "deviceDateCreate": "2026-09-08T07:06:59.921Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001399",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-09T07:05:44.366Z",
+        "deviceDateCreate": "2026-09-09T07:05:44.229Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000139a",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-10T07:04:55.040Z",
+        "deviceDateCreate": "2026-09-10T07:04:54.888Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000139b",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-11T11:45:07.305Z",
+        "deviceDateCreate": "2026-09-11T11:45:06.776Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000139c",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-12T07:04:56.575Z",
+        "deviceDateCreate": "2026-09-12T07:04:56.418Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000139d",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-13T07:07:57.738Z",
+        "deviceDateCreate": "2026-09-13T07:07:57.559Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000139e",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-14T07:07:11.484Z",
+        "deviceDateCreate": "2026-09-14T07:07:11.299Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000139f",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-15T07:05:16.579Z",
+        "deviceDateCreate": "2026-09-15T07:05:16.432Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a0",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-16T07:07:01.750Z",
+        "deviceDateCreate": "2026-09-16T07:07:01.566Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a1",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-17T07:06:25.138Z",
+        "deviceDateCreate": "2026-09-17T07:06:25.000Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a2",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-18T07:05:33.129Z",
+        "deviceDateCreate": "2026-09-18T07:05:32.916Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a3",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-19T07:05:05.256Z",
+        "deviceDateCreate": "2026-09-19T07:05:05.100Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a4",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-20T07:05:48.469Z",
+        "deviceDateCreate": "2026-09-20T07:05:48.334Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a5",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-21T07:08:01.091Z",
+        "deviceDateCreate": "2026-09-21T07:08:00.927Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a6",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-22T07:06:35.413Z",
+        "deviceDateCreate": "2026-09-22T07:06:35.250Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a7",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-23T07:04:42.045Z",
+        "deviceDateCreate": "2026-09-23T07:04:41.904Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a8",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-24T07:05:56.497Z",
+        "deviceDateCreate": "2026-09-24T07:05:56.275Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000013a9",
+        "casChat": "000000000000000000000005",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-25T07:09:25.363Z",
+        "deviceDateCreate": "2026-09-25T07:09:25.129Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000006",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-09-04T07:05:15.078Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10006,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000006",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000001781",
+        "createdAt": "2026-09-30T07:14:51.246Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000001771",
+        "casChat": "000000000000000000000006",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T07:05:15.177Z",
+        "deviceDateCreate": "2026-09-04T07:05:15.177Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001772",
+        "casChat": "000000000000000000000006",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T16:01:05.708Z",
+        "deviceDateCreate": "2026-09-04T16:01:05.708Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001773",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T16:01:08.866Z",
+        "deviceDateCreate": "2026-09-04T15:59:58.648Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001774",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T16:01:27.827Z",
+        "deviceDateCreate": "2026-09-04T16:00:17.606Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001775",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T16:01:32.169Z",
+        "deviceDateCreate": "2026-09-04T16:00:22.076Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001776",
+        "casChat": "000000000000000000000006",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-09-04T16:01:40.535Z",
+        "deviceDateCreate": "2026-09-04T16:00:30.313Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001777",
+        "casChat": "000000000000000000000006",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-09-05T07:07:25.251Z",
+        "deviceDateCreate": "2026-09-05T07:07:25.095Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001778",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-05T07:07:25.355Z",
+        "deviceDateCreate": "2026-09-05T07:07:25.221Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001779",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-07T07:10:33.522Z",
+        "deviceDateCreate": "2026-09-07T07:10:33.371Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000177a",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-08T07:06:30.106Z",
+        "deviceDateCreate": "2026-09-08T07:06:29.955Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000177b",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-11T11:44:50.215Z",
+        "deviceDateCreate": "2026-09-11T11:44:50.035Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000177c",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-13T07:07:45.832Z",
+        "deviceDateCreate": "2026-09-13T07:07:45.657Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000177d",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-16T07:07:11.902Z",
+        "deviceDateCreate": "2026-09-16T07:07:11.758Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000177e",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-19T07:05:16.350Z",
+        "deviceDateCreate": "2026-09-19T07:05:16.198Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000177f",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-21T07:07:53.507Z",
+        "deviceDateCreate": "2026-09-21T07:07:53.351Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001780",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T07:07:46.908Z",
+        "deviceDateCreate": "2026-09-29T07:07:46.661Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001781",
+        "casChat": "000000000000000000000006",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T07:14:51.246Z",
+        "deviceDateCreate": "2026-09-30T07:14:50.978Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000007",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-09-23T07:03:25.584Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10007,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000007",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000001b6c",
+        "createdAt": "2026-10-08T07:07:16.364Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000001b59",
+        "casChat": "000000000000000000000007",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-09-23T07:03:25.681Z",
+        "deviceDateCreate": "2026-09-23T07:03:25.681Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b5a",
+        "casChat": "000000000000000000000007",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-09-23T07:03:26.212Z",
+        "deviceDateCreate": "2026-09-23T07:03:26.212Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b5b",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-23T07:03:26.236Z",
+        "deviceDateCreate": "2026-09-23T07:03:26.236Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b5c",
+        "casChat": "000000000000000000000007",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-09-23T07:03:27.299Z",
+        "deviceDateCreate": "2026-09-23T07:03:27.299Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b5d",
+        "casChat": "000000000000000000000007",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-09-24T07:05:54.624Z",
+        "deviceDateCreate": "2026-09-24T07:05:54.396Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b5e",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-24T07:05:55.153Z",
+        "deviceDateCreate": "2026-09-24T07:05:54.936Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b5f",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-25T07:07:02.667Z",
+        "deviceDateCreate": "2026-09-25T07:07:02.424Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b60",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-26T07:06:27.596Z",
+        "deviceDateCreate": "2026-09-26T07:06:27.364Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b61",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-27T07:06:52.509Z",
+        "deviceDateCreate": "2026-09-27T07:06:52.272Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b62",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-28T07:09:02.585Z",
+        "deviceDateCreate": "2026-09-28T07:09:02.350Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b63",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T07:07:33.142Z",
+        "deviceDateCreate": "2026-09-29T07:07:32.894Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b64",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T07:14:33.906Z",
+        "deviceDateCreate": "2026-09-30T07:14:33.655Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b65",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-01T07:08:05.764Z",
+        "deviceDateCreate": "2026-10-01T07:08:05.527Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b66",
+        "casChat": "000000000000000000000007",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-02T16:16:44.469Z",
+        "deviceDateCreate": "2026-10-02T16:16:44.469Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b67",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-03T21:48:19.715Z",
+        "deviceDateCreate": "2026-10-03T21:48:19.458Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b68",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:16:22.063Z",
+        "deviceDateCreate": "2026-10-04T07:16:21.737Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b69",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:14:02.682Z",
+        "deviceDateCreate": "2026-10-05T07:14:02.435Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b6a",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:09:36.647Z",
+        "deviceDateCreate": "2026-10-06T07:09:36.425Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b6b",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T07:11:03.474Z",
+        "deviceDateCreate": "2026-10-07T07:11:03.172Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001b6c",
+        "casChat": "000000000000000000000007",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-08T07:07:16.364Z",
+        "deviceDateCreate": "2026-10-08T07:07:16.103Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000008",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-09-26T07:02:56.985Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10008,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000008",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000001f59",
+        "createdAt": "2026-10-13T07:05:14.766Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000001f41",
+        "casChat": "000000000000000000000008",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-09-26T07:02:57.088Z",
+        "deviceDateCreate": "2026-09-26T07:02:57.088Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f42",
+        "casChat": "000000000000000000000008",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-09-26T07:02:59.333Z",
+        "deviceDateCreate": "2026-09-26T07:02:59.333Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f43",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-26T07:02:59.360Z",
+        "deviceDateCreate": "2026-09-26T07:02:59.360Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f44",
+        "casChat": "000000000000000000000008",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-09-26T07:03:00.064Z",
+        "deviceDateCreate": "2026-09-26T07:03:00.064Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f45",
+        "casChat": "000000000000000000000008",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-09-27T07:07:37.670Z",
+        "deviceDateCreate": "2026-09-27T07:07:37.425Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f46",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-27T07:07:38.233Z",
+        "deviceDateCreate": "2026-09-27T07:07:38.001Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f47",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-28T07:09:36.656Z",
+        "deviceDateCreate": "2026-09-28T07:09:36.408Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f48",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T07:08:33.468Z",
+        "deviceDateCreate": "2026-09-29T07:08:33.237Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f49",
+        "casChat": "000000000000000000000008",
+        "interactionType": "CAS_CHAT_TRANSFERED",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T18:48:43.096Z",
+        "deviceDateCreate": "2026-09-29T18:48:43.096Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "ADMIN"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f4a",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T07:15:25.982Z",
+        "deviceDateCreate": "2026-09-30T07:15:25.712Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f4b",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-01T07:09:37.992Z",
+        "deviceDateCreate": "2026-10-01T07:09:37.734Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f4c",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-03T21:48:31.071Z",
+        "deviceDateCreate": "2026-10-03T21:48:30.828Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f4d",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:17:26.587Z",
+        "deviceDateCreate": "2026-10-04T07:17:26.317Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f4e",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:14:43.905Z",
+        "deviceDateCreate": "2026-10-05T07:14:43.655Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f4f",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:10:54.556Z",
+        "deviceDateCreate": "2026-10-06T07:10:54.313Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f50",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T07:11:29.443Z",
+        "deviceDateCreate": "2026-10-07T07:11:29.166Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f51",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-08T07:07:27.090Z",
+        "deviceDateCreate": "2026-10-08T07:07:26.849Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f52",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-09T07:06:23.055Z",
+        "deviceDateCreate": "2026-10-09T07:06:22.796Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f53",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T00:36:20.946Z",
+        "deviceDateCreate": "2026-10-13T00:36:20.480Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f54",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T00:37:16.904Z",
+        "deviceDateCreate": "2026-10-13T00:37:16.424Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f55",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T00:37:26.999Z",
+        "deviceDateCreate": "2026-10-13T00:37:26.532Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f56",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T00:37:37.410Z",
+        "deviceDateCreate": "2026-10-13T00:37:36.953Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f57",
+        "casChat": "000000000000000000000008",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T00:37:48.922Z",
+        "deviceDateCreate": "2026-10-13T00:37:48.448Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f58",
+        "casChat": "000000000000000000000008",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:05:14.344Z",
+        "deviceDateCreate": "2026-10-13T07:05:14.053Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000001f59",
+        "casChat": "000000000000000000000008",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:05:14.766Z",
+        "deviceDateCreate": "2026-10-13T07:05:14.506Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "000000000000000000000009",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-09-27T07:03:27.069Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10009,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000009",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000002337",
+        "createdAt": "2026-10-04T07:17:08.961Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000002329",
+        "casChat": "000000000000000000000009",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-09-27T07:03:27.155Z",
+        "deviceDateCreate": "2026-09-27T07:03:27.155Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000232a",
+        "casChat": "000000000000000000000009",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-09-27T07:03:28.000Z",
+        "deviceDateCreate": "2026-09-27T07:03:28.000Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000232b",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-28T07:08:16.522Z",
+        "deviceDateCreate": "2026-09-28T07:08:16.291Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000232c",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T07:06:27.075Z",
+        "deviceDateCreate": "2026-09-29T07:06:26.858Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000232d",
+        "casChat": "000000000000000000000009",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T13:11:52.933Z",
+        "deviceDateCreate": "2026-09-29T13:11:52.932Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000232e",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T13:34:56.966Z",
+        "deviceDateCreate": "2026-09-29T13:34:56.757Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000232f",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T13:35:05.767Z",
+        "deviceDateCreate": "2026-09-29T13:35:05.547Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002330",
+        "casChat": "000000000000000000000009",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-09-29T13:35:16.331Z",
+        "deviceDateCreate": "2026-09-29T13:35:16.117Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002331",
+        "casChat": "000000000000000000000009",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T07:13:09.562Z",
+        "deviceDateCreate": "2026-09-30T07:13:09.189Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002332",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T07:13:10.060Z",
+        "deviceDateCreate": "2026-09-30T07:13:09.776Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002333",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T20:47:55.690Z",
+        "deviceDateCreate": "2026-09-30T20:47:55.251Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002334",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T20:48:22.403Z",
+        "deviceDateCreate": "2026-09-30T20:48:22.169Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002335",
+        "casChat": "000000000000000000000009",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-09-30T20:48:35.188Z",
+        "deviceDateCreate": "2026-09-30T20:48:34.945Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002336",
+        "casChat": "000000000000000000000009",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:17:08.632Z",
+        "deviceDateCreate": "2026-10-04T07:17:08.359Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002337",
+        "casChat": "000000000000000000000009",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:17:08.961Z",
+        "deviceDateCreate": "2026-10-04T07:17:08.695Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "00000000000000000000000a",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-04T07:03:30.408Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10010,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000010",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000002729",
+        "createdAt": "2026-10-13T07:05:53.021Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000002711",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:03:30.518Z",
+        "deviceDateCreate": "2026-10-04T07:03:30.518Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002712",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:03:31.092Z",
+        "deviceDateCreate": "2026-10-04T07:03:31.092Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002713",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:03:31.120Z",
+        "deviceDateCreate": "2026-10-04T07:03:31.120Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002714",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:03:34.009Z",
+        "deviceDateCreate": "2026-10-04T07:03:34.009Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002715",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:09:40.577Z",
+        "deviceDateCreate": "2026-10-06T07:09:40.267Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002716",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:09:40.918Z",
+        "deviceDateCreate": "2026-10-06T07:09:40.618Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002717",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:14:23.280Z",
+        "deviceDateCreate": "2026-10-06T07:14:23.280Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002718",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:14:23.304Z",
+        "deviceDateCreate": "2026-10-06T07:14:23.304Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002719",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T04:26:52.902Z",
+        "deviceDateCreate": "2026-10-07T04:26:52.900Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000271a",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T04:27:02.238Z",
+        "deviceDateCreate": "2026-10-07T04:27:02.190Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000271b",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T04:27:49.934Z",
+        "deviceDateCreate": "2026-10-07T04:27:49.950Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000271c",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T04:28:01.561Z",
+        "deviceDateCreate": "2026-10-07T04:28:01.581Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000271d",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T04:28:20.614Z",
+        "deviceDateCreate": "2026-10-07T04:28:20.606Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000271e",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T07:07:40.994Z",
+        "deviceDateCreate": "2026-10-07T07:07:40.730Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "00000000000000000000271f",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T07:07:41.283Z",
+        "deviceDateCreate": "2026-10-07T07:07:41.028Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002720",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T14:51:34.354Z",
+        "deviceDateCreate": "2026-10-07T14:51:32.698Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002721",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T14:52:16.762Z",
+        "deviceDateCreate": "2026-10-07T14:52:15.107Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002722",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T14:52:24.706Z",
+        "deviceDateCreate": "2026-10-07T14:52:22.841Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002723",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T14:52:41.509Z",
+        "deviceDateCreate": "2026-10-07T14:52:39.838Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002724",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-08T07:07:16.445Z",
+        "deviceDateCreate": "2026-10-08T07:07:16.173Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002725",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-08T07:07:16.706Z",
+        "deviceDateCreate": "2026-10-08T07:07:16.435Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002726",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T07:05:06.650Z",
+        "deviceDateCreate": "2026-10-10T07:05:06.360Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002727",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:07:38.975Z",
+        "deviceDateCreate": "2026-10-11T07:07:38.714Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002728",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:22.416Z",
+        "deviceDateCreate": "2026-10-12T07:11:22.168Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002729",
+        "casChat": "00000000000000000000000a",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:05:53.021Z",
+        "deviceDateCreate": "2026-10-13T07:05:52.665Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "00000000000000000000000b",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-04T07:04:16.372Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10011,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000011",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000002b0c",
+        "createdAt": "2026-10-14T07:06:33.180Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000002af9",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:04:16.484Z",
+        "deviceDateCreate": "2026-10-04T07:04:16.484Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002afa",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:04:17.000Z",
+        "deviceDateCreate": "2026-10-04T07:04:17.000Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002afb",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:04:17.028Z",
+        "deviceDateCreate": "2026-10-04T07:04:17.028Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002afc",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-04T07:04:17.820Z",
+        "deviceDateCreate": "2026-10-04T07:04:17.820Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002afd",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:12:40.356Z",
+        "deviceDateCreate": "2026-10-05T07:12:40.113Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002afe",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:12:40.691Z",
+        "deviceDateCreate": "2026-10-05T07:12:40.440Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002aff",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:14:21.569Z",
+        "deviceDateCreate": "2026-10-05T07:14:21.569Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b00",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:14:21.597Z",
+        "deviceDateCreate": "2026-10-05T07:14:21.597Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b01",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T19:24:15.076Z",
+        "deviceDateCreate": "2026-10-05T19:24:15.075Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b02",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T19:24:41.361Z",
+        "deviceDateCreate": "2026-10-05T19:23:08.219Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b03",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T19:26:13.643Z",
+        "deviceDateCreate": "2026-10-05T19:24:45.911Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b04",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T19:26:18.280Z",
+        "deviceDateCreate": "2026-10-05T19:24:50.646Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b05",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T19:26:24.370Z",
+        "deviceDateCreate": "2026-10-05T19:24:56.648Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b06",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:14:02.423Z",
+        "deviceDateCreate": "2026-10-06T07:14:02.044Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b07",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-06T07:14:02.853Z",
+        "deviceDateCreate": "2026-10-06T07:14:02.567Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b08",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T07:07:53.841Z",
+        "deviceDateCreate": "2026-10-07T07:07:53.542Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b09",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:07:37.826Z",
+        "deviceDateCreate": "2026-10-11T07:07:37.555Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b0a",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:30.852Z",
+        "deviceDateCreate": "2026-10-12T07:11:30.608Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b0b",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:08:17.975Z",
+        "deviceDateCreate": "2026-10-13T07:08:17.708Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002b0c",
+        "casChat": "00000000000000000000000b",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-14T07:06:33.180Z",
+        "deviceDateCreate": "2026-10-14T07:06:32.912Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "00000000000000000000000c",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-05T07:04:37.882Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10012,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000012",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "000000000000000000002eeb",
+        "createdAt": "2026-10-13T07:08:18.871Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "000000000000000000002ee1",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:04:37.967Z",
+        "deviceDateCreate": "2026-10-05T07:04:37.967Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee2",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:04:38.478Z",
+        "deviceDateCreate": "2026-10-05T07:04:38.478Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee3",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T07:07:03.313Z",
+        "deviceDateCreate": "2026-10-07T07:07:02.761Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee4",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:31:48.527Z",
+        "deviceDateCreate": "2026-10-07T19:31:48.527Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee5",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:31:52.965Z",
+        "deviceDateCreate": "2026-10-07T19:31:52.469Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee6",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:32:16.193Z",
+        "deviceDateCreate": "2026-10-07T19:32:15.723Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee7",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:32:19.416Z",
+        "deviceDateCreate": "2026-10-07T19:32:19.042Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee8",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:32:41.753Z",
+        "deviceDateCreate": "2026-10-07T19:32:41.279Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002ee9",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:34.969Z",
+        "deviceDateCreate": "2026-10-12T07:11:34.690Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002eea",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:11:35.307Z",
+        "deviceDateCreate": "2026-10-12T07:11:35.041Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "000000000000000000002eeb",
+        "casChat": "00000000000000000000000c",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:08:18.871Z",
+        "deviceDateCreate": "2026-10-13T07:08:18.458Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "00000000000000000000000d",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-05T07:05:33.438Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10013,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000013",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "0000000000000000000032d3",
+        "createdAt": "2026-10-13T07:05:15.280Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "0000000000000000000032c9",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:05:33.552Z",
+        "deviceDateCreate": "2026-10-05T07:05:33.552Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032ca",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:05:34.221Z",
+        "deviceDateCreate": "2026-10-05T07:05:34.221Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032cb",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:05:34.248Z",
+        "deviceDateCreate": "2026-10-05T07:05:34.248Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032cc",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-05T07:05:35.075Z",
+        "deviceDateCreate": "2026-10-05T07:05:35.075Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032cd",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:33:27.485Z",
+        "deviceDateCreate": "2026-10-07T19:33:27.485Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032ce",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:33:30.710Z",
+        "deviceDateCreate": "2026-10-07T19:33:30.237Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032cf",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:33:51.346Z",
+        "deviceDateCreate": "2026-10-07T19:33:50.874Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032d0",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:33:54.571Z",
+        "deviceDateCreate": "2026-10-07T19:33:54.196Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032d1",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-07T19:33:59.546Z",
+        "deviceDateCreate": "2026-10-07T19:33:59.070Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032d2",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:05:14.485Z",
+        "deviceDateCreate": "2026-10-13T07:05:14.209Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000032d3",
+        "casChat": "00000000000000000000000d",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:05:15.280Z",
+        "deviceDateCreate": "2026-10-13T07:05:14.687Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  },
+  {
+    "row": {
+      "casChat": {
+        "_id": "00000000000000000000000e",
+        "status": "active",
+        "enterprise": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-10-09T07:04:30.421Z",
+        "datePostponed": null
+      },
+      "referenceObject": {
+        "id": 10014,
+        "type": "ORDER",
+        "data": {
+          "shipping_guide": "000000000014",
+          "shipping_company": "ENVIA"
+        }
+      },
+      "casTicketType": {
+        "_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "Ordenes sin movimiento"
+      },
+      "lastMessage": {
+        "_id": "0000000000000000000036c1",
+        "createdAt": "2026-10-13T07:05:30.577Z"
+      }
+    },
+    "thread": [
+      {
+        "_id": "0000000000000000000036b1",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "CAS_REQUEST_CREATED",
+        "isDeleted": false,
+        "createdAt": "2026-10-09T07:04:30.521Z",
+        "deviceDateCreate": "2026-10-09T07:04:30.521Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "DROPSHIPPER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b2",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-09T07:04:31.217Z",
+        "deviceDateCreate": "2026-10-09T07:04:31.217Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b3",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-09T07:04:31.247Z",
+        "deviceDateCreate": "2026-10-09T07:04:31.247Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b4",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-09T07:04:31.780Z",
+        "deviceDateCreate": "2026-10-09T07:04:31.780Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b5",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T07:04:54.445Z",
+        "deviceDateCreate": "2026-10-10T07:04:54.169Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b6",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T07:04:54.771Z",
+        "deviceDateCreate": "2026-10-10T07:04:54.504Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b7",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T07:09:22.791Z",
+        "deviceDateCreate": "2026-10-10T07:09:22.791Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b8",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T07:09:22.823Z",
+        "deviceDateCreate": "2026-10-10T07:09:22.823Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036b9",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "CAS_CHAT_TAKEN",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T13:10:22.396Z",
+        "deviceDateCreate": "2026-10-10T13:10:22.395Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036ba",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T13:19:57.608Z",
+        "deviceDateCreate": "2026-10-10T13:19:57.912Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036bb",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T13:22:41.498Z",
+        "deviceDateCreate": "2026-10-10T13:22:42.049Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036bc",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T13:22:53.275Z",
+        "deviceDateCreate": "2026-10-10T13:22:53.805Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036bd",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "CAS_SOLVED",
+        "isDeleted": false,
+        "createdAt": "2026-10-10T13:23:51.252Z",
+        "deviceDateCreate": "2026-10-10T13:23:51.776Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "COLABORADOR_CAS"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036be",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "STATUS_CHANGED",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:07:36.832Z",
+        "deviceDateCreate": "2026-10-11T07:07:36.547Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036bf",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-11T07:07:36.987Z",
+        "deviceDateCreate": "2026-10-11T07:07:36.729Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036c0",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-12T07:10:34.514Z",
+        "deviceDateCreate": "2026-10-12T07:10:34.266Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      },
+      {
+        "_id": "0000000000000000000036c1",
+        "casChat": "00000000000000000000000e",
+        "interactionType": "MESSAGE",
+        "isDeleted": false,
+        "createdAt": "2026-10-13T07:05:30.577Z",
+        "deviceDateCreate": "2026-10-13T07:05:29.498Z",
+        "user": {
+          "is_current": false
+        },
+        "user_rol": {
+          "name": "SELLER"
+        },
+        "message_exact": false
+      }
+    ]
+  }
+]
