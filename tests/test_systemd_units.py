@@ -34,13 +34,14 @@ class SystemdUnitTests(unittest.TestCase):
         self.assertIn("--output-report /opt/dropi-cas/runtime/daily-cas-report.json", text)
         self.assertIn("TimeoutStartSec=7500", text)
         self.assertIn("KillMode=control-group", text)
+        self.assertIn("/usr/bin/flock --exclusive --timeout 125 --no-fork ${DROPI_SHARED_LOCK}", text)
         self.assertIn("ProtectSystem=strict", text)
         self.assertIn("ProtectHome=read-only", text)
         self.assertNotIn("Persistent=true", text)
 
     def test_daily_timer_is_daily_bogota_without_catchup(self):
         text = (ROOT / "deploy/systemd/dropi-cas-daily.timer").read_text(encoding="utf-8")
-        self.assertIn("OnCalendar=*-*-* 08:00:00 America/Bogota", text)
+        self.assertIn("OnCalendar=*-*-* 08,16:00:00 America/Bogota", text)
         self.assertIn("Persistent=false", text)
         self.assertIn("Unit=dropi-cas-daily.service", text)
 

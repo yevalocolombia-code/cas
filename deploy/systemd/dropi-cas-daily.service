@@ -14,7 +14,7 @@ Environment=HOME=/root
 Environment=PYTHONUNBUFFERED=1
 EnvironmentFile=/opt/dropi-cas/runtime/daily-cas.env
 WorkingDirectory=/opt/dropi-cas
-ExecStart=/opt/dropi-cas/.venv/bin/python /opt/dropi-cas/scripts/dropi-cas-daily.py --config /opt/dropi-cas/config.toml --case-service-type-id ${CAS_SERVICE_TYPE_ID} --allow-external-writes --minimum-hours 48 --movement-timezone America/Bogota --max-runtime-seconds 7200 --journal /opt/dropi-cas/runtime/daily-cas-journal.jsonl --output-report /opt/dropi-cas/runtime/daily-cas-report.json --dropi-cas-command /opt/dropi-cas/.venv/bin/dropi-cas --browser-command /opt/dropi-cas/scripts/dropi-browser-harness
+ExecStart=/usr/bin/flock --exclusive --timeout 125 --no-fork ${DROPI_SHARED_LOCK} /opt/dropi-cas/.venv/bin/python /opt/dropi-cas/scripts/dropi-cas-daily.py --config /opt/dropi-cas/config.toml --case-service-type-id ${CAS_SERVICE_TYPE_ID} --allow-external-writes --minimum-hours 48 --movement-timezone America/Bogota --max-runtime-seconds 7200 --journal /opt/dropi-cas/runtime/daily-cas-journal.jsonl --output-report /opt/dropi-cas/runtime/daily-cas-report.json --dropi-cas-command /opt/dropi-cas/.venv/bin/dropi-cas --browser-command /opt/dropi-cas/scripts/dropi-browser-harness
 TimeoutStartSec=7500
 KillMode=control-group
 NoNewPrivileges=yes
