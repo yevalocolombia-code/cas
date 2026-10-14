@@ -36,6 +36,36 @@ def _setup(config_path: str) -> AppConfig:
     return config
 
 
+def _refreshed_order_by_identity(
+    database_path: Path, *, guide: str, order_id: str | None
+) -> OrderSnapshot | None:
+    """Return one locally refreshed order only when its identity is unambiguous."""
+    if order_id:
+        query = """SELECT order_id, guide, carrier, status, last_movement_at
+                   FROM orders WHERE order_id = ? AND guide = ?"""
+        parameters = (order_id, guide)
+    else:
+        query = """SELECT order_id, guide, carrier, status, last_movement_at
+                   FROM orders WHERE guide = ?"""
+        parameters = (guide,)
+    with sqlite3.connect(database_path) as connection:
+        rows = connection.execute(query, parameters).fetchall()
+    if len(rows) != 1:
+        return None
+    stored_order_id, stored_guide, carrier, status, raw_movement = rows[0]
+    try:
+        movement = datetime.fromisoformat(raw_movement) if raw_movement else None
+    except (TypeError, ValueError):
+        movement = None
+    return OrderSnapshot(
+        order_id=str(stored_order_id),
+        guide=str(stored_guide),
+        carrier=str(carrier or ""),
+        current_status=str(status or ""),
+        last_movement_at=movement,
+    )
+
+
 def _order_from_json(raw: dict[str, Any]) -> OrderSnapshot:
     movement = raw.get("last_movement_at")
     return OrderSnapshot(
@@ -196,8 +226,45 @@ def command_preflight(args: argparse.Namespace) -> int:
         minimum_hours_without_movement=config.minimum_hours_without_movement,
         movement_timezone=config.movement_timezone,
     )
-    item = next((candidate for candidate in candidates if candidate.guide == args.guide), None)
+    expected_order_id = getattr(args, "order_id", None)
+    item = next(
+        (
+            candidate
+            for candidate in candidates
+            if candidate.guide == args.guide
+            and (not expected_order_id or candidate.order_id == expected_order_id)
+        ),
+        None,
+    )
     if item is None:
+        refreshed = _refreshed_order_by_identity(
+            config.database_path,
+            guide=args.guide,
+            order_id=expected_order_id,
+        )
+        if refreshed is not None:
+            decision = evaluate_order(
+                refreshed,
+                EligibilityPolicy(
+                    minimum_hours_without_movement=config.minimum_hours_without_movement,
+                    movement_timezone=config.movement_timezone,
+                ),
+            )
+            if decision.status != "eligible":
+                print(
+                    json.dumps(
+                        {
+                            "ok": True,
+                            "mode": "read_only_preflight",
+                            "order_id": refreshed.order_id,
+                            "guide": refreshed.guide,
+                            "status": "not_eligible_after_history_refresh",
+                            "decision_status": decision.status,
+                            "reason": decision.reason,
+                        }
+                    )
+                )
+                return 0
         print(
             json.dumps(
                 {
@@ -392,6 +459,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     preflight.add_argument("--config", required=True)
     preflight.add_argument("--guide", required=True)
+    preflight.add_argument(
+        "--order-id",
+        help="Expected local order identity; when supplied, preflight only returns an enriched result for this exact order/guide pair.",
+    )
     preflight.add_argument("--allow-external-read", action="store_true")
     preflight.add_argument("--case-service-type-id", required=True)
     preflight.add_argument("--browser-command", default="browser-harness")

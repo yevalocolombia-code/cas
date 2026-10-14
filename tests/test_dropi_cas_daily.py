@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import io
 import json
+import sqlite3
 import sys
 import tempfile
 import time
@@ -119,12 +120,14 @@ class DailyCasRunnerTests(unittest.TestCase):
             run_call = next(call for call, _timeout in commands.calls if call[1] == "run")
             self.assertIn("--execute", run_call)
             self.assertNotIn("--limit", run_call)
+            preflight_call = next(call for call, _timeout in commands.calls if call[1] == "preflight")
+            self.assertEqual(preflight_call[preflight_call.index("--order-id") + 1], "1")
             self.assertGreaterEqual(next(timeout for call, timeout in commands.calls if call[1] == "run"), 240)
             events = [json.loads(line) for line in journal.read_text(encoding="utf-8").splitlines()]
             self.assertEqual([event["status"] for event in events], ["write_intent", "write_verified"])
             self.assertEqual(json.loads(report.read_text(encoding="utf-8")), payload)
 
-    def test_unknown_preflight_is_blocked_not_counted_as_existing(self) -> None:
+    def test_eligible_preflight_identity_mismatch_is_blocked(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             config = self._config(root)
@@ -132,14 +135,32 @@ class DailyCasRunnerTests(unittest.TestCase):
             commands = FakeCommands({
                 "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
                 "candidates": [{"ok": True, "candidates": [self._candidate()]}],
-                "preflight": [{"ok": True, "status": "case_search_http_error", **self._candidate()}],
+                "preflight": [{"ok": True, "status": "eligible", **self._candidate(order_id="other")}],
             })
             with redirect_stdout(io.StringIO()) as output:
                 result = self.module.main(self._arguments(config, journal, report), run_command=commands)
             self.assertEqual(result, 2)
             payload = self._payload(output)
             self.assertEqual((payload["bloqueado"], payload["existentes"], payload["excluidos"]), (1, 0, 0))
-            self.assertEqual(json.loads(journal.read_text(encoding="utf-8"))["status"], "blocked_preflight_uncertain")
+            event = json.loads(journal.read_text(encoding="utf-8"))
+            self.assertEqual((event["status"], event["reason"]), ("blocked_preflight_identity_mismatch", "preflight_identity_mismatch"))
+            self.assertFalse(any(call[1] == "run" for call, _timeout in commands.calls))
+
+    def test_preflight_exception_records_a_sanitized_reason(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            config = self._config(root)
+            journal, report = root / "journal.jsonl", root / "report.json"
+            commands = FakeCommands({
+                "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
+                "candidates": [{"ok": True, "candidates": [self._candidate()]}],
+                "preflight": [self.module.CommandFailure("untrusted browser detail")],
+            })
+            with redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(self.module.main(self._arguments(config, journal, report), run_command=commands), 2)
+            event = json.loads(journal.read_text(encoding="utf-8"))
+            self.assertEqual((event["status"], event["reason"]), ("blocked_preflight_uncertain", "preflight_command_failed"))
+            self.assertNotIn("untrusted browser detail", journal.read_text(encoding="utf-8"))
             self.assertFalse(any(call[1] == "run" for call, _timeout in commands.calls))
 
     def test_known_not_eligible_is_excluded_not_existing(self) -> None:
@@ -150,13 +171,83 @@ class DailyCasRunnerTests(unittest.TestCase):
             commands = FakeCommands({
                 "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
                 "candidates": [{"ok": True, "candidates": [self._candidate()]}],
-                "preflight": [{"ok": True, "status": "not_eligible_after_history_refresh", "guide": "G-1"}],
+                "preflight": [{
+                    "ok": True,
+                    "status": "not_eligible_after_history_refresh",
+                    "decision_status": "excluded_status",
+                    "reason": "Status is excluded: DEVOLUCION.",
+                    **self._candidate(),
+                }],
             })
             with redirect_stdout(io.StringIO()) as output:
                 self.assertEqual(self.module.main(self._arguments(config, journal, report), run_command=commands), 0)
             payload = self._payload(output)
             self.assertEqual((payload["bloqueado"], payload["existentes"], payload["excluidos"]), (0, 0, 1))
-            self.assertEqual(json.loads(journal.read_text(encoding="utf-8"))["status"], "excluded_not_eligible")
+            event = json.loads(journal.read_text(encoding="utf-8"))
+            self.assertEqual(
+                (event["status"], event["decision_status"], event["reason"]),
+                ("excluded_not_eligible", "excluded_status", "excluded_by_status"),
+            )
+            self.assertNotIn("DEVOLUCION", journal.read_text(encoding="utf-8"))
+
+    def test_excluded_preflight_missing_order_identity_is_blocked(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            config = self._config(root)
+            journal, report = root / "journal.jsonl", root / "report.json"
+            commands = FakeCommands({
+                "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
+                "candidates": [{"ok": True, "candidates": [self._candidate()]}],
+                "preflight": [{
+                    "ok": True,
+                    "status": "not_eligible_after_history_refresh",
+                    "decision_status": "excluded_status",
+                    "reason": "Status is excluded: DEVOLUCION.",
+                    "guide": "G-1",
+                }],
+            })
+            with redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(self.module.main(self._arguments(config, journal, report), run_command=commands), 2)
+            event = json.loads(journal.read_text(encoding="utf-8"))
+            self.assertEqual((event["status"], event["reason"]), ("blocked_preflight_identity_mismatch", "preflight_identity_mismatch"))
+            self.assertFalse(any(call[1] == "run" for call, _timeout in commands.calls))
+
+    def test_missing_preflight_status_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            config = self._config(root)
+            journal, report = root / "journal.jsonl", root / "report.json"
+            commands = FakeCommands({
+                "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
+                "candidates": [{"ok": True, "candidates": [self._candidate()]}],
+                "preflight": [{"ok": True, **self._candidate()}],
+            })
+            with redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(self.module.main(self._arguments(config, journal, report), run_command=commands), 2)
+            event = json.loads(journal.read_text(encoding="utf-8"))
+            self.assertEqual((event["status"], event["reason"]), ("blocked_preflight_uncertain", "preflight_status_missing"))
+            self.assertFalse(any(call[1] == "run" for call, _timeout in commands.calls))
+
+    def test_existing_cases_make_followup_total_unknown_and_pending_review(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            config = self._config(root)
+            database = root / "runtime" / "data" / "automation.sqlite3"
+            database.parent.mkdir(parents=True)
+            with sqlite3.connect(database) as connection:
+                connection.execute("CREATE TABLE followups(status TEXT NOT NULL)")
+            journal, report = root / "journal.jsonl", root / "report.json"
+            commands = FakeCommands({
+                "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
+                "candidates": [{"ok": True, "candidates": [self._candidate()]}],
+                "preflight": [{"ok": True, "status": "existing_case", "chat_id": "chat-1", **self._candidate()}],
+            })
+            with redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(self.module.main(self._arguments(config, journal, report), run_command=commands), 0)
+            payload = self._payload(output)
+            self.assertIsNone(payload["seguimientos_pendientes"])
+            self.assertEqual(payload["seguimientos_pendientes_revision"], 1)
+            self.assertEqual(payload["inventario_seguimientos"], "incompleto")
 
     def test_identity_mismatch_before_or_after_write_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -238,9 +329,9 @@ class DailyCasRunnerTests(unittest.TestCase):
                 "diagnose-dropi": [self._auth()], "sync": [{"ok": True}],
                 "candidates": [{"ok": True, "candidates": [self._candidate("3", "G-new-first"), self._candidate("1", "G-old"), self._candidate("2", "G-new-second")]}],
                 "preflight": [
-                    {"ok": True, "status": "not_eligible", "guide": "G-old"},
-                    {"ok": True, "status": "not_eligible", "guide": "G-new-first"},
-                    {"ok": True, "status": "not_eligible", "guide": "G-new-second"},
+                    {"ok": True, "status": "not_eligible_after_history_refresh", "decision_status": "under_threshold", **self._candidate("1", "G-old")},
+                    {"ok": True, "status": "not_eligible_after_history_refresh", "decision_status": "under_threshold", **self._candidate("3", "G-new-first")},
+                    {"ok": True, "status": "not_eligible_after_history_refresh", "decision_status": "under_threshold", **self._candidate("2", "G-new-second")},
                 ],
             })
             args = self.module.build_parser().parse_args(self._arguments(config, journal, report))

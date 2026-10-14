@@ -32,6 +32,12 @@ from dropi_cas_automation.config import load_config
 MINIMUM_WRITE_RESERVE_SECONDS = 240.0
 BLOCKING_JOURNAL_STATUSES = frozenset({"write_intent", "blocked_write_uncertain", "blocked_remote_readback_mismatch"})
 KNOWN_EXCLUDED_PREFLIGHT_STATUSES = frozenset({"not_eligible", "not_eligible_after_history_refresh"})
+EXCLUDED_PREFLIGHT_DECISION_REASONS = {
+    "excluded_status": "excluded_by_status",
+    "under_threshold": "excluded_recent_movement",
+    "missing_movement": "excluded_missing_movement",
+    "missing_guide": "excluded_missing_guide",
+}
 
 
 class CommandFailure(RuntimeError):
@@ -161,6 +167,9 @@ def _summary(
     authentication: str = "no_verificada",
     writes_authorized: bool = False,
 ) -> dict[str, Any]:
+    followup_inventory = "incompleto" if existing else (
+        "local" if followups_pending is not None else "desconocido"
+    )
     return {
         "ok": blocked == 0 and errors == 0,
         "parcial": (blocked > 0 or errors > 0) if partial is None else partial,
@@ -172,7 +181,11 @@ def _summary(
         "excluidos": excluded,
         "previamente_verificados": previously_verified,
         "pendientes": pending,
-        "seguimientos_pendientes": followups_pending,
+        # Existing remote cases are not necessarily present in the local
+        # follow-up inventory, so a local zero is not a global zero.
+        "seguimientos_pendientes": None if existing else followups_pending,
+        "seguimientos_pendientes_revision": existing,
+        "inventario_seguimientos": followup_inventory,
         "autenticacion": authentication,
         "escrituras_autorizadas": writes_authorized,
     }
@@ -207,12 +220,18 @@ def _read_candidates(payload: dict[str, Any]) -> list[dict[str, str]]:
     return candidates
 
 
-def _preflight(args: argparse.Namespace, invoke: CommandRunner, remaining: float, guide: str) -> dict[str, Any]:
+def _preflight(
+    args: argparse.Namespace,
+    invoke: CommandRunner,
+    remaining: float,
+    candidate: dict[str, str],
+) -> dict[str, Any]:
     return invoke(
         _command(
             args,
             "preflight",
-            "--guide", guide,
+            "--guide", candidate["guide"],
+            "--order-id", candidate["order_id"],
             "--allow-external-read",
             "--case-service-type-id", args.case_service_type_id,
             *_browser_args(args),
@@ -394,7 +413,12 @@ def run_daily(
                     blocked += 1
                     continue
                 if len(rows) != 1:
-                    journal.append(guide=guide, status="blocked_duplicate_candidate", item_ref=secrets.token_urlsafe(16))
+                    journal.append(
+                        guide=guide,
+                        status="blocked_duplicate_candidate",
+                        reason="duplicate_candidate",
+                        item_ref=secrets.token_urlsafe(16),
+                    )
                     blocked += 1
                     continue
                 candidate = rows[0]
@@ -403,31 +427,87 @@ def run_daily(
                     continue
 
                 try:
-                    preflight = _preflight(args, invoke, remaining(), guide)
+                    preflight = _preflight(args, invoke, remaining(), candidate)
                 except Exception:
-                    journal.append(guide=guide, status="blocked_preflight_uncertain", item_ref=secrets.token_urlsafe(16))
+                    journal.append(
+                        guide=guide,
+                        status="blocked_preflight_uncertain",
+                        reason="preflight_command_failed",
+                        item_ref=secrets.token_urlsafe(16),
+                    )
                     blocked += 1
                     errors += 1
                     continue
                 status = preflight.get("status")
                 if status == "existing_case":
                     if not _preflight_identity_matches(preflight, candidate):
-                        journal.append(guide=guide, status="blocked_preflight_identity_mismatch", item_ref=secrets.token_urlsafe(16))
+                        journal.append(
+                            guide=guide,
+                            status="blocked_preflight_identity_mismatch",
+                            reason="preflight_identity_mismatch",
+                            item_ref=secrets.token_urlsafe(16),
+                        )
                         blocked += 1
                         continue
                     journal.append(guide=guide, status="existing_case", item_ref=secrets.token_urlsafe(16))
                     existing += 1
                     continue
                 if status in KNOWN_EXCLUDED_PREFLIGHT_STATUSES:
-                    if preflight.get("guide") != candidate["guide"]:
-                        journal.append(guide=guide, status="blocked_preflight_identity_mismatch", item_ref=secrets.token_urlsafe(16))
+                    if not _preflight_identity_matches(preflight, candidate):
+                        journal.append(
+                            guide=guide,
+                            status="blocked_preflight_identity_mismatch",
+                            reason="preflight_identity_mismatch",
+                            item_ref=secrets.token_urlsafe(16),
+                        )
                         blocked += 1
                     else:
-                        journal.append(guide=guide, status="excluded_not_eligible", item_ref=secrets.token_urlsafe(16))
-                        excluded += 1
+                        decision_status = preflight.get("decision_status")
+                        exclusion_reason = (
+                            EXCLUDED_PREFLIGHT_DECISION_REASONS.get(decision_status)
+                            if isinstance(decision_status, str)
+                            else None
+                        )
+                        if exclusion_reason is None:
+                            journal.append(
+                                guide=guide,
+                                status="blocked_preflight_uncertain",
+                                reason="preflight_exclusion_unrecognized",
+                                item_ref=secrets.token_urlsafe(16),
+                            )
+                            blocked += 1
+                        else:
+                            assert isinstance(decision_status, str)
+                            journal.append(
+                                guide=guide,
+                                status="excluded_not_eligible",
+                                decision_status=decision_status,
+                                reason=exclusion_reason,
+                                item_ref=secrets.token_urlsafe(16),
+                            )
+                            excluded += 1
                     continue
-                if status != "eligible" or not _preflight_identity_matches(preflight, candidate):
-                    journal.append(guide=guide, status="blocked_preflight_uncertain", item_ref=secrets.token_urlsafe(16))
+                if not _preflight_identity_matches(preflight, candidate):
+                    journal.append(
+                        guide=guide,
+                        status="blocked_preflight_identity_mismatch",
+                        reason="preflight_identity_mismatch",
+                        item_ref=secrets.token_urlsafe(16),
+                    )
+                    blocked += 1
+                    continue
+                if status != "eligible":
+                    reason = (
+                        "preflight_status_missing"
+                        if not isinstance(status, str) or not status
+                        else "preflight_status_unrecognized"
+                    )
+                    journal.append(
+                        guide=guide,
+                        status="blocked_preflight_uncertain",
+                        reason=reason,
+                        item_ref=secrets.token_urlsafe(16),
+                    )
                     blocked += 1
                     continue
                 # A new write needs enough budget for its own remote verification.
@@ -447,20 +527,30 @@ def run_daily(
                             existing += 1
                             continue
                         raise CommandFailure("write outcome is uncertain")
-                    readback = _preflight(args, invoke, remaining(), guide)
+                    readback = _preflight(args, invoke, remaining(), candidate)
                     if (
                         readback.get("status") != "existing_case"
                         or not _preflight_identity_matches(readback, candidate)
                         or readback.get("chat_id") != chat_id
                     ):
-                        journal.append(guide=guide, status="blocked_remote_readback_mismatch", item_ref=secrets.token_urlsafe(16))
+                        journal.append(
+                            guide=guide,
+                            status="blocked_remote_readback_mismatch",
+                            reason="remote_readback_mismatch",
+                            item_ref=secrets.token_urlsafe(16),
+                        )
                         blocked += 1
                         continue
                     journal.append(guide=guide, status="write_verified", chat_id=chat_id, item_ref=secrets.token_urlsafe(16))
                     created += 1
                     verified += 1
                 except Exception:
-                    journal.append(guide=guide, status="blocked_write_uncertain", item_ref=secrets.token_urlsafe(16))
+                    journal.append(
+                        guide=guide,
+                        status="blocked_write_uncertain",
+                        reason="write_command_failed",
+                        item_ref=secrets.token_urlsafe(16),
+                    )
                     blocked += 1
                     errors += 1
 
