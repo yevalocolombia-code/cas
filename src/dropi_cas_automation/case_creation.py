@@ -141,6 +141,7 @@ if not click_unique_exact('Ok').get('ok'):
     print('__JSON__'+json.dumps({'ok':False,'error':'selection_ambiguous','stage':'order_filter'})); raise SystemExit
 time.sleep(4); wait_for_load()
 opened = js(f"""(() => {{
+  const ORDER_ID = {json.dumps(ORDER_ID)};
   const visible = element => {{ const r=element.getBoundingClientRect(); return r.width>0 && r.height>0; }};
   const visibleRows = [...document.querySelectorAll('table tbody tr')].filter(visible);
   if (visibleRows.length !== 1) return {{ok:false,error:'guide_filter_not_unique',count:visibleRows.length}};
