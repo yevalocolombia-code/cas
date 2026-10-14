@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the bounded Dropi CAS daily cycle at 08:00 Bogota time
+
+[Timer]
+OnCalendar=*-*-* 08:00:00 America/Bogota
+Persistent=false
+RandomizedDelaySec=0
+Unit=dropi-cas-daily.service
+
+[Install]
+WantedBy=timers.target

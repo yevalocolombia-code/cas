@@ -1,0 +1,42 @@
+[Unit]
+Description=Daily bounded Dropi CAS creation cycle
+Requires=dropi-browser.service
+After=dropi-browser.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Match the existing root-owned CLI workspace; Chrome remains dropicas.
+# Do not broaden permissions on the private MCP config or browser workspace.
+User=root
+Group=root
+Environment=HOME=/root
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=/opt/dropi-cas/runtime/daily-cas.env
+WorkingDirectory=/opt/dropi-cas
+ExecStart=/opt/dropi-cas/.venv/bin/python /opt/dropi-cas/scripts/dropi-cas-daily.py --config /opt/dropi-cas/config.toml --case-service-type-id ${CAS_SERVICE_TYPE_ID} --allow-external-writes --minimum-hours 48 --movement-timezone America/Bogota --max-runtime-seconds 7200 --journal /opt/dropi-cas/runtime/daily-cas-journal.jsonl --output-report /opt/dropi-cas/runtime/daily-cas-report.json --dropi-cas-command /opt/dropi-cas/.venv/bin/dropi-cas --browser-command /opt/dropi-cas/scripts/dropi-browser-harness
+TimeoutStartSec=7500
+KillMode=control-group
+NoNewPrivileges=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/dropi-cas/runtime
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+LockPersonality=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
